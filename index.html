@@ -1,10 +1,130 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 , minimum-scale=1.0, maximum-scale=1.0">
+
     <title>Title</title>
+
+    <script src="https://code.jquery.com/jquery-3.1.0.js" type="text/javascript"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="font-awesome/css/all.css">
+    <script src="js/main.js" type="text/javascript"></script>
+    <link href="css/main.css" rel="stylesheet">
+
 </head>
+
 <body>
 
+<nav class="navbar navbar-light bg-light navbar-expand-lg fixed-top">
+    <div class="input-group">
+        <input class="form-control border-end-0 border rounded-pill" type="search" placeholder="Search" id="example-search-input">
+        <span class="input-group-append">
+            <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5" type="button">
+                <i class="fa fa-search"></i>
+            </button>
+        </span>
+
+
+        <button type="button" class="btn btn-primary d-sm-none" id="btnFilter">
+            <span class="glyphicon glyphicon-cog"></span>Filters
+        </button>
+    </div>
+
+
+</nav>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-4 col-xs-12 filter rounded-2 overflow-scroll" style="display: block" id="filter-panel">
+            <h3>Filters:</h3>
+
+            <div class="card">
+                <article class="card-group-item">
+                    <header class="card-header">
+                        <h6 class="title">Year</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label>Min</label>
+                                    <input type="number" class="form-control" placeholder="0 DC">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Max</label>
+                                    <input type="number" class="form-control" placeholder="2021 DC">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card-group-item">
+                    <header class="card-header">
+                        <h6 class="title">Languages</h6>
+                    </header>
+                    <button type="button" class="btn btn-info" id="btnGen">Add language</button>
+                    <div class="filter-content" >
+                        <div class="card-body">
+                            <div class="row" id="filter-content-languages">
+
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card-group-item">
+                    <header class="card-header">
+                        <h6 class="title">Publisher</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card-group-item">
+                    <header class="card-header">
+                        <h6 class="title">Author</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <div class="col-md-7 col-xs-12 rounded-2 result">
+            <h3>Results:</h3>
+            <div class="row contentPanel" id="prova">
+                Cercami stasera
+                Come una pantera cerca la sua preda
+                Come chi guarda l'alba e aspetta un sogno che si avvera
+                Segui il vento che si crea, ora sciogli la tua vela
+                Portami dove c'era una croce nel silenzio
+                Dentro una macchina all'ombra di
+                Quello sguardo di chi ha deciso
+                Sento una musica avvolgerti
+                E se non finirà stasera
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
 </body>
+
 </html>
