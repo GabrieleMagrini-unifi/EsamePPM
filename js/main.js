@@ -1,4 +1,3 @@
-
 var addCols = function (){
 
     var myCol = $('<div class="form-group col-md-6"><label>Language:</label><select class="form-select" aria-label="Default select example"><option selected>Choose</option><option value="1">One</option><option value="2">Two</option><option value="3">Three</option></select></div>');
@@ -48,4 +47,14 @@ $(window).resize(function() {
        var myDiv = document.getElementById('filter-panel');
        myDiv.style.display = 'none';
     }
+});
+
+$(document).ready(function() {
+var checkList = document.getElementById('languages-filter');
+checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
+  if (checkList.classList.contains('visible'))
+    checkList.classList.remove('visible');
+  else
+    checkList.classList.add('visible');
+}
 });

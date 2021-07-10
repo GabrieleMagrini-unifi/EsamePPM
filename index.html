@@ -2,8 +2,7 @@
 <html lang="it">
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0 , minimum-scale=1.0, maximum-scale=1.0">
+    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0 , minimum-scale=1.0, maximum-scale=1.0">
 
     <title>Title</title>
 
@@ -63,19 +62,35 @@
                     </div>
                 </article>
 
+
                 <article class="card-group-item">
                     <header class="card-header">
                         <h6 class="title">Languages</h6>
                     </header>
-                    <button type="button" class="btn btn-info" id="btnGen">Add language</button>
-                    <div class="filter-content" >
+                    <div class="filter-content">
                         <div class="card-body">
-                            <div class="row" id="filter-content-languages">
-
+                            <div class="row">
+                                <div id="languages-filter" class="dropdown-check-list" >
+                                    <span class="anchor">Select Languages</span>
+                                    <ul class="items">
+                                        <li><input type="checkbox" value="It"/>It</li>
+                                        <li><input type="checkbox" value="Eng"/>Eng</li>
+                                        <li><input type="checkbox" value="Fr"/>Fr</li>
+                                        <li><input type="checkbox" value="Esp"/>Esp</li>
+                                        <li><input type="checkbox" value="Ukr"/>Ukr</li>
+                                        <li><input type="checkbox" value="Cze"/>Cze</li>
+                                        <li><input type="checkbox" value="Por"/>Por</li>
+                                        <li><input type="checkbox" value="Fin"/>Fin</li>
+                                        <li><input type="checkbox" value="Nor"/>Nor</li>
+                                        <li><input type="checkbox" value="Ger"/>Ger</li>
+                                        <li><input type="checkbox" value="Hol"/>Hol</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </article>
+
 
                 <article class="card-group-item">
                     <header class="card-header">
@@ -107,17 +122,18 @@
         </div>
 
         <div class="col-md-7 col-xs-12 rounded-2 result">
+
             <h3>Results:</h3>
-            <div class="row contentPanel" id="prova">
-                Cercami stasera
-                Come una pantera cerca la sua preda
-                Come chi guarda l'alba e aspetta un sogno che si avvera
-                Segui il vento che si crea, ora sciogli la tua vela
-                Portami dove c'era una croce nel silenzio
-                Dentro una macchina all'ombra di
-                Quello sguardo di chi ha deciso
-                Sento una musica avvolgerti
-                E se non finirà stasera
+            <div class="card">
+                <article class="card-group-item">
+                    <div class="filter-content" >
+                        <div class="card-body">
+                            <div class="row" id="results">
+
+                            </div>
+                        </div>
+                    </div>
+                </article>
             </div>
 
         </div>
