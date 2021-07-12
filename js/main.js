@@ -4,13 +4,6 @@ var addCols = function (){
 
     myCol.appendTo('#filter-content-languages');
 
-
-
-    $('.close').on('click', function(e){
-      e.stopPropagation();
-          var $target = $(this).parents('.col-sm-6');
-          $target.hide('slow', function(){ $target.remove(); });
-    });
 };
 
 $(document).ready(function(){
@@ -57,4 +50,34 @@ checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
   else
     checkList.classList.add('visible');
 }
+});
+
+$(document).ready(function() {
+ $("#btnHome").click(function() {
+
+    var myDiv = document.getElementById('home');
+    var myDiv2 = document.getElementById('users');
+
+     if (myDiv.style.display != 'block') {
+          myDiv.style.display = 'block';
+          myDiv2.style.display = 'none';
+          this.classList.add("active");
+          document.getElementById("btnAut").classList.remove("active");
+        }
+ });
+});
+
+$(document).ready(function() {
+ $("#btnAut").click(function() {
+
+    var myDiv = document.getElementById('users');
+    var myDiv2 = document.getElementById('home');
+
+    if (myDiv.style.display != 'block') {
+      myDiv.style.display = 'block';
+      myDiv2.style.display = 'none';
+      this.classList.add("active");
+      document.getElementById("btnHome").classList.remove("active");
+    }
+ });
 });
