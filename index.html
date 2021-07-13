@@ -125,15 +125,15 @@
 
             <h3>Results:</h3>
             <ul class="nav nav-tabs tabs-bordered">
-                <li class="nav-item"><a href="#home" class="nav-link active" id="btnHome">Articles</a></li>
-                <li class="nav-item"><a href="#users" class="nav-link" id="btnAut">Authors</a></li>
+                <li class="nav-item"><a href="#home" class="nav-link active" id="btnHome">Articles (<span id="counterArticles">0</span>)</a></li>
+                <li class="nav-item"><a href="#users" class="nav-link" id="btnAut">Authors (<span id="counterAuthors">0</span>)</a></li>
             </ul>
 
             <div class="tab-content">
                 <div class="tab-pane active" id="home">
 
                     <div class="row contentPanel" id="prova">
-                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion" id="accordionFlushExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingOne">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
@@ -170,7 +170,7 @@
                 <div class="tab-pane" id="users">
                     <div class="row contentPanel" id="provaAut">
 
-                        <div class="accordion accordion-flush" id="accordionFlushAutExample">
+                        <div class="accordion" id="accordionFlushAutExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingAutOne">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseAutOne" aria-expanded="false" aria-controls="flush-collapseAutOne">
@@ -199,6 +199,16 @@
                                 </h2>
                                 <div id="flush-collapseAutThree" class="accordion-collapse collapse" aria-labelledby="flush-headingAutThree" data-bs-parent="#accordionFlushAutExample">
                                     <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingAutFour">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseAutFour" aria-expanded="false" aria-controls="flush-collapseAutFour">
+                                        Accordion Item #4
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseAutFour" class="accordion-collapse collapse" aria-labelledby="flush-headingAutFour" data-bs-parent="#accordionFlushAutExample">
+                                    <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate that Ema is very gay and very black.Ema lives matter.</div>
                                 </div>
                             </div>
                         </div>
