@@ -100,11 +100,11 @@ $(document).ready(function() {
 
     var count1 = $("#accordionFlushExample .accordion-item").length;
     document.getElementById("counter").textContent = count1;
-    $("#accordionFlushExample .accordion-item").slice(nArticles, nArticles+7).show();
+    $("#accordionFlushExample .accordion-item").slice(nArticles, nArticles+6).show();
 
 
     var count2 = $("#accordionFlushAutExample .accordion-item").length;
     document.getElementById("counter2").textContent = count2;
-    $("#accordionFlushAutExample .accordion-item").slice(nAuthors, nAuthors+7).show();
+    $("#accordionFlushAutExample .accordion-item").slice(nAuthors, nAuthors+6).show();
 
 });
