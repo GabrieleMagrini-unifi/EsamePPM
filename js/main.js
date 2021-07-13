@@ -1,6 +1,7 @@
 var nArticles = 0;
 var nAuthors = 0;
-
+var count1 = 0;
+var count2 = 0;
 
 var addCols = function (){
 
@@ -98,13 +99,63 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 
-    var count1 = $("#accordionFlushExample .accordion-item").length;
+    count1 = $("#accordionFlushExample .accordion-item").length;
     document.getElementById("counter").textContent = count1;
-    $("#accordionFlushExample .accordion-item").slice(nArticles, nArticles+6).show();
 
-
-    var count2 = $("#accordionFlushAutExample .accordion-item").length;
+    count2 = $("#accordionFlushAutExample .accordion-item").length;
     document.getElementById("counter2").textContent = count2;
+
+    checkVisibility();
+
+});
+
+var checkVisibility = function (){
+
+    $("#accordionFlushExample .accordion-item").slice(nArticles-6, nArticles).hide();
+    $("#accordionFlushAutExample .accordion-item").slice(nAuthors-6, nAuthors).hide();
+
+    $("#accordionFlushExample .accordion-item").slice(nArticles+6, nArticles+12).hide();
+    $("#accordionFlushAutExample .accordion-item").slice(nAuthors+6, nAuthors+12).hide();
+
+    $("#accordionFlushExample .accordion-item").slice(nArticles, nArticles+6).show();
     $("#accordionFlushAutExample .accordion-item").slice(nAuthors, nAuthors+6).show();
+
+
+
+};
+
+$(document).ready(function() {
+   $("#btnPrevResArt").click(function() {
+
+      nArticles -= 6;
+      if(nArticles < 0){
+         nArticles = 0;
+      }
+      checkVisibility();
+   });
+
+   $("#btnNextResArt").click(function() {
+       if(count1 > 6 && nArticles < count1-6){
+         nArticles += 6;
+       }
+       checkVisibility();
+   });
+
+   $("#btnPrevResAut").click(function() {
+
+      nAuthors -= 6;
+      if(nAuthors < 0){
+         nAuthors = 0;
+      }
+      checkVisibility();
+   });
+   $("#btnNextResAut").click(function() {
+       if(count2 > 6 && nAuthors < count2-6){
+         nAuthors += 6;
+       }
+       checkVisibility();
+   });
+
+
 
 });
