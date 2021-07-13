@@ -101,3 +101,25 @@ body {
     display: block;
     overflow: scroll;
 }
+
+/* Results */
+
+#btnPrevResAut{
+    margin-top: 10px;
+    float: left;
+}
+
+#btnNextResAut{
+    margin-top: 10px;
+    float: right;
+}
+
+#btnPrevResArt{
+    margin-top: 10px;
+    float: left;
+}
+
+#btnNextResArt{
+    margin-top: 10px;
+    float: right;
+}

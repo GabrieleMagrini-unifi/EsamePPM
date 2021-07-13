@@ -1,3 +1,7 @@
+var nArticles = 0;
+var nAuthors = 0;
+
+
 var addCols = function (){
 
     var myCol = $('<div class="form-group col-md-6"><label>Language:</label><select class="form-select" aria-label="Default select example"><option selected>Choose</option><option value="1">One</option><option value="2">Two</option><option value="3">Three</option></select></div>');
@@ -89,5 +93,18 @@ $(document).ready(function() {
 
     var count2 = $("#accordionFlushAutExample .accordion-item").length
     document.getElementById("counterAuthors").textContent = count2;
+
+});
+
+$(document).ready(function() {
+
+    var count1 = $("#accordionFlushExample .accordion-item").length;
+    document.getElementById("counter").textContent = count1;
+    $("#accordionFlushExample .accordion-item").slice(nArticles, nArticles+7).show();
+
+
+    var count2 = $("#accordionFlushAutExample .accordion-item").length;
+    document.getElementById("counter2").textContent = count2;
+    $("#accordionFlushAutExample .accordion-item").slice(nAuthors, nAuthors+7).show();
 
 });
