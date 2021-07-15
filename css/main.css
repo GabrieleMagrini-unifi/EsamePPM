@@ -47,7 +47,7 @@ body {
     margin-bottom: 1em;
     margin-right: 1em;
     border:2px solid #949899;
-    max-height: 85vh;
+    height: 85vh;
     overflow: scroll;
     overflow-x: hidden;
 }
