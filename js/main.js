@@ -2,7 +2,7 @@ var nArticles = 0;
 var nAuthors = 0;
 var count1 = 0;
 var count2 = 0;
-var nAccordion = 6;
+nAccordion = 0;
 
 var addCols = function (){
 
@@ -13,8 +13,9 @@ var addCols = function (){
 };
 
 $(document).ready(function(){
-    addCols();
-    return false;
+    var accordionHeight = $(".accordion-item").height();
+    var height = $('#results').height() - accordionHeight*2;
+    nAccordion = Math.floor(height/accordionHeight);
 });
 
 $(document).ready(function() {
@@ -118,7 +119,7 @@ var checkVisibility = function (){
 $(document).ready(function() {
    $("#btnPrevResArt").click(function() {
 
-      nArticles -= 6;
+      nArticles -= nAccordion;
       if(nArticles < 0){
          nArticles = 0;
       }
@@ -126,23 +127,23 @@ $(document).ready(function() {
    });
 
    $("#btnNextResArt").click(function() {
-       if(count1 > 6 && nArticles < count1-6){
-         nArticles += 6;
+       if(count1 > nAccordion && nArticles < count1-nAccordion){
+         nArticles += nAccordion;
        }
        checkVisibility();
    });
 
    $("#btnPrevResAut").click(function() {
 
-      nAuthors -= 6;
+      nAuthors -= nAccordion;
       if(nAuthors < 0){
          nAuthors = 0;
       }
       checkVisibility();
    });
    $("#btnNextResAut").click(function() {
-       if(count2 > 6 && nAuthors < count2-6){
-         nAuthors += 6;
+       if(count2 > nAccordion && nAuthors < count2-nAccordion){
+         nAuthors += nAccordion;
        }
        checkVisibility();
    });
