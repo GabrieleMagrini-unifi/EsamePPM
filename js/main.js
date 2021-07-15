@@ -15,7 +15,7 @@ var addCols = function (){
 $(document).ready(function(){
     var accordionHeight = $(".accordion-item").height();
     var height = $('#results').height() - accordionHeight*2;
-    nAccordion = Math.floor(height/accordionHeight);
+    nAccordion = Math.floor(height/accordionHeight) - 1;
 });
 
 $(document).ready(function() {
