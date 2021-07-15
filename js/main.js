@@ -2,6 +2,7 @@ var nArticles = 0;
 var nAuthors = 0;
 var count1 = 0;
 var count2 = 0;
+var nAccordion = 6;
 
 var addCols = function (){
 
@@ -111,14 +112,14 @@ $(document).ready(function() {
 
 var checkVisibility = function (){
 
-    $("#accordionFlushExample .accordion-item").slice(nArticles-6, nArticles).hide();
-    $("#accordionFlushAutExample .accordion-item").slice(nAuthors-6, nAuthors).hide();
+    $("#accordionFlushExample .accordion-item").slice(nArticles-nAccordion, nArticles).hide();
+    $("#accordionFlushAutExample .accordion-item").slice(nAuthors-nAccordion, nAuthors).hide();
 
-    $("#accordionFlushExample .accordion-item").slice(nArticles+6, nArticles+12).hide();
-    $("#accordionFlushAutExample .accordion-item").slice(nAuthors+6, nAuthors+12).hide();
+    $("#accordionFlushExample .accordion-item").slice(nArticles+nAccordion, nArticles+2*nAccordion).hide();
+    $("#accordionFlushAutExample .accordion-item").slice(nAuthors+nAccordion, nAuthors+2*nAccordion).hide();
 
-    $("#accordionFlushExample .accordion-item").slice(nArticles, nArticles+6).show();
-    $("#accordionFlushAutExample .accordion-item").slice(nAuthors, nAuthors+6).show();
+    $("#accordionFlushExample .accordion-item").slice(nArticles, nArticles+nAccordion).show();
+    $("#accordionFlushAutExample .accordion-item").slice(nAuthors, nAuthors+nAccordion).show();
 
 
 
