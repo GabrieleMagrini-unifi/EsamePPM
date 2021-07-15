@@ -90,16 +90,6 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 
-    var count1 = $("#accordionFlushExample .accordion-item").length
-    document.getElementById("counterArticles").textContent = count1;
-
-    var count2 = $("#accordionFlushAutExample .accordion-item").length
-    document.getElementById("counterAuthors").textContent = count2;
-
-});
-
-$(document).ready(function() {
-
     count1 = $("#accordionFlushExample .accordion-item").length;
     document.getElementById("counter").textContent = count1;
 
