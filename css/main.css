@@ -47,7 +47,7 @@ body {
     margin-right: 1em;
     border: 2px solid #949899;
     height: 85vh;
-    overflow: scroll;
+    overflow: auto;
     overflow-x: hidden;
 }
 
@@ -101,7 +101,6 @@ body {
 
 .dropdown-check-list.visible .items {
     display: block;
-    overflow: scroll;
 }
 
 /* Results */
