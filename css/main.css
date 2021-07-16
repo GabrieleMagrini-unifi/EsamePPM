@@ -8,17 +8,17 @@ body {
     background: #563187 !important;
 }
 
-.navbar-light .navbar-nav .nav-link:hover{
+.navbar-light .navbar-nav .nav-link:hover {
     background: #f4f4f4;
     color: #0d6efd;
 }
 
-.navbar-light .navbar-collapse{
+.navbar-light .navbar-collapse {
     justify-content: flex-end;
 }
 
-.navbar-light .navbar-toggler{
-    background:#fff !important;
+.navbar-light .navbar-toggler {
+    background: #fff !important;
 }
 
 /* filters */
@@ -34,19 +34,18 @@ body {
 
 
 .filter {
-    border:2px solid #949899;
+    border: 2px solid #949899;
     margin-bottom: 1em;
     margin-right: 1em;
     padding: 10px;
     background: #dbe3e3;
-    max-height: 85vh;
 }
 
-.result{
+.result {
     padding: 10px;
     margin-bottom: 1em;
     margin-right: 1em;
-    border:2px solid #949899;
+    border: 2px solid #949899;
     height: 85vh;
     overflow: scroll;
     overflow-x: hidden;
@@ -64,6 +63,7 @@ body {
     display: inline-block;
     padding: 5px 50px 5px 10px;
     border: 1px solid #ccc;
+    width: 100%;
 }
 
 .dropdown-check-list .anchor:after {
@@ -106,28 +106,28 @@ body {
 
 /* Results */
 
-#btnPrevResAut{
+#btnPrevResAut {
     margin-top: 10px;
     float: left;
 }
 
-#btnNextResAut{
+#btnNextResAut {
     margin-top: 10px;
     float: right;
 }
 
-#btnPrevResArt{
+#btnPrevResArt {
     margin-top: 10px;
     float: left;
 }
 
-#btnNextResArt{
+#btnNextResArt {
     margin-top: 10px;
     float: right;
 }
 
 /* accordion */
 
-.accordion-item{
+.accordion-item {
     display: none;
 }
