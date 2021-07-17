@@ -2,7 +2,7 @@ var nArticles = 0;
 var nAuthors = 0;
 var count1 = 0;
 var count2 = 0;
-nAccordion = 0;
+var nAccordion = 0;
 
 var addCols = function (){
 
@@ -15,7 +15,7 @@ var addCols = function (){
 $(document).ready(function(){
     var accordionHeight = $(".accordion-item").height();
     var height = $('#results').height() - accordionHeight*2;
-    nAccordion = Math.floor(height/accordionHeight) - 1;
+    nAccordion = Math.floor(height / accordionHeight);
 });
 
 $(document).ready(function() {
