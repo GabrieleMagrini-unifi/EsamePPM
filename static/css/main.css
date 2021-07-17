@@ -1,0 +1,132 @@
+body {
+    padding-top: 70px;
+}
+
+/*navbars*/
+
+.bg-light {
+    background: #563187 !important;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    background: #f4f4f4;
+    color: #0d6efd;
+}
+
+.navbar-light .navbar-collapse {
+    justify-content: flex-end;
+}
+
+.navbar-light .navbar-toggler {
+    background: #fff !important;
+}
+
+/* filters */
+
+.input-group {
+    margin-right: 10%;
+    margin-left: 10%;
+}
+
+.ms-n5 {
+    margin-left: -95%;
+}
+
+
+.filter {
+    border: 2px solid #949899;
+    margin-bottom: 1em;
+    margin-right: 1em;
+    padding: 10px;
+    background: #dbe3e3;
+}
+
+.result {
+    padding: 10px;
+    margin-bottom: 1em;
+    margin-right: 1em;
+    border: 2px solid #949899;
+    height: 85vh;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+/* dropdown */
+
+.dropdown-check-list {
+    display: inline-block;
+}
+
+.dropdown-check-list .anchor {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 50px 5px 10px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.dropdown-check-list .anchor:after {
+    position: absolute;
+    content: "";
+    border-left: 2px solid black;
+    border-top: 2px solid black;
+    padding: 5px;
+    right: 10px;
+    top: 20%;
+    -moz-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+}
+
+.dropdown-check-list .anchor:active:after {
+    right: 8px;
+    top: 21%;
+}
+
+.dropdown-check-list ul.items {
+    padding: 2px;
+    display: none;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.dropdown-check-list ul.items li {
+    list-style: none;
+}
+
+
+.dropdown-check-list.visible .items {
+    display: block;
+}
+
+/* Results */
+
+#btnPrevResAut {
+    margin-top: 10px;
+    float: left;
+}
+
+#btnNextResAut {
+    margin-top: 10px;
+    float: right;
+}
+
+#btnPrevResArt {
+    margin-top: 10px;
+    float: left;
+}
+
+#btnNextResArt {
+    margin-top: 10px;
+    float: right;
+}
+
+/* accordion */
+
+.accordion-item {
+    display: none;
+}
