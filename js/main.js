@@ -4,13 +4,30 @@ var count1 = 0;
 var count2 = 0;
 var nAccordion = 0;
 
-var addCols = function (){
+var addCols = function (num){
+   for (var i=1;i<=num;i++) {
+      var myCol = $('<div class="accordion-item"> <h2 class="accordion-header" id="flush-heading'+ i +'"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse'+ i +'" aria-expanded="false" aria-controls="flush-collapseOne'+ i +'">Title '+ i +' </button></h2><div id="flush-collapse'+ i +'" class="accordion-collapse collapse" aria-labelledby="flush-heading'+ i +'" data-bs-parent="#accordionFlushExample"><div class="accordion-body">Tutto il resto </div></div></div>');
 
-    var myCol = $('<div class="form-group col-md-6"><label>Language:</label><select class="form-select" aria-label="Default select example"><option selected>Choose</option><option value="1">One</option><option value="2">Two</option><option value="3">Three</option></select></div>');
-
-    myCol.appendTo('#filter-content-languages');
-
+      myCol.appendTo('#accordionFlushExample');
+   }
 };
+
+
+var addCols2 = function (num){
+   for (var i=1;i<=num;i++) {
+      var myCol = $('<div class="accordion-item"> <h2 class="accordion-header" id="flush-heading'+ i +'"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse'+ i +'" aria-expanded="false" aria-controls="flush-collapseOne'+ i +'">Title '+ i +' </button></h2><div id="flush-collapse'+ i +'" class="accordion-collapse collapse" aria-labelledby="flush-heading'+ i +'" data-bs-parent="#accordionFlushAutExample"><div class="accordion-body">Tutto il resto </div></div></div>');
+
+      myCol.appendTo('#accordionFlushAutExample');
+   }
+};
+
+$(document).ready(function(){
+    addCols('8');
+
+    addCols2('13');
+
+    return false;
+});
 
 $(document).ready(function(){
     var accordionHeight = $(".accordion-item").height();
