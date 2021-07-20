@@ -130,3 +130,16 @@ body {
 .accordion-item {
     display: none;
 }
+
+
+/* generic */
+
+.no-decoration {
+    list-style: none;
+}
+
+.blank-text {
+    color: lightgray;
+    text-align: center;
+    padding: 10px;
+}
