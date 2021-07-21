@@ -110,15 +110,16 @@ def authors_search_result():
     sparql_query_elements = {
         'input': request.values['input'] if 'input' in request.values.keys() else ""
     }
-    query_result = conn.prepareTupleQuery(QueryLanguage.SPARQL, """
+    query = """
                 SELECT ?code ?name ?title WHERE {
                     ?code rdf:type foaf:Person .
-                    ?code foaf:name ?name filter regex(?name, "^%s", "i") .
+                    ?code foaf:name ?name filter contains(lcase(?name), lcase("^%s")) .
                     ?resource_id dcterms:creator ?code .
                     ?resource_id rdfs:label ?title .
-                } order by ?code """ % sparql_query_elements['input']).evaluate()
+                } order by ?code """ % sparql_query_elements['input']
+    query_result = conn.prepareTupleQuery(QueryLanguage.SPARQL, query).evaluate()
     for r in query_result:
-        if len(authors) < 1 or authors[-1]['id'] in str(r.getValue('code')):
+        if len(authors) < 1 or authors[-1]['id'] not in str(r.getValue('code')):
             authors.append({'id': str(r.getValue('code'))[1:-1].split('/')[-1], 'name': str(r.getValue('name'))[1:-1],
                             'works': [str(r.getValue('title'))[1:-1]]})
         else:
@@ -183,7 +184,9 @@ def resources_search_result():
                     {'id': str(r.getValue('code'))[1:-1].split("/")[-1], 'title': str(r.getValue('title'))[1:-1],
                      'date': str(r.getValue('date'))[1:-1],
                      'creator': str(r.getValue('creator_name'))[1:-1],
-                     'publisher': str(r.getValue('publisher_name'))[1:-1]}
+                     'publisher': str(r.getValue('publisher_name'))[1:-1],
+                     'preview': str(r.getValue('title'))[1:81] + "..." if len(str(r.getValue('title'))) > 82
+                        else str(r.getValue('title'))[1:-1]}
                 )
             else:
                 resources[-1]['creator'] += "; " + str(r.getValue('creator_name'))[1:-1]

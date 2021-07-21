@@ -212,6 +212,7 @@ function search() {
                     this.responseText;
                 articleCounter = $("#accordionFlushExample").children().length;
                 document.getElementById("counter").innerHTML = articleCounter;
+                articlePageNumber = 1;
                 setAccordionNumber();
                 renderArticleAccordions()
             }
@@ -225,6 +226,7 @@ function search() {
                     this.responseText;
                 authorCounter = $("#accordionFlushAutExample").children().length;
                 document.getElementById("counter2").innerHTML = authorCounter;
+                authorPageNumber = 1;
                 setAccordionNumber();
                 renderAuthorsAccordions();
             }
@@ -234,6 +236,9 @@ function search() {
 
         document.getElementById("accordionFlushExample").innerHTML = "Caricamento..."
         document.getElementById("accordionFlushAutExample").innerHTML = "Caricamento..."
+
+        document.getElementById("counter1").innerText = "Loading";
+        document.getElementById("counter2").innerHTML = "Loading";
 
 
         xhttpResources.send();

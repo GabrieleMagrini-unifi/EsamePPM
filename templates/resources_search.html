@@ -1,5 +1,7 @@
 {% for result in results %}
 
+    {% if result['title'] == result['preview'] %}
+
     <div class="accordion-item">
         <h2 class="accordion-header" id="flush-heading{{ loop.index }}">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -32,4 +34,43 @@
             </div>
         </div>
     </div>
+
+    {% else %}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading{{ loop.index }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapse{{ loop.index }}" aria-expanded="false"
+                    aria-controls="flush-collapse{{ loop.index }}">
+                {{ result['preview'] }}
+            </button>
+        </h2>
+        <div id="flush-collapse{{ loop.index }}" class="accordion-collapse collapse"
+             aria-labelledby="flush-heading{{ loop.index }}" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                <p>Full title: </p>
+                <p>{{ result['title'] }}</p>
+                {% if result['date'] != "" %}
+                    <p> Data:
+                        {{ result['date'] }}
+                    </p>
+                {% endif %}
+                {% if result['creator'] != "" %}
+                    <p> Autore/i:<br>
+                        {{ result['creator'] }}
+                    </p>
+                {% endif %}
+                {% if result['publisher'] != "" and result['publisher'] != '"s.n"' %}
+                    <p> Publisher
+                        {{ result['publisher'] }}
+                    </p>
+                {% endif %}
+                <p> Code
+                    {{ result['id'] }}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
 {% endfor %}
