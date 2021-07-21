@@ -2,38 +2,27 @@ var nArticles = 0;
 var nAuthors = 0;
 var count1 = 0;
 var count2 = 0;
+
 var nAccordion = 0;
+var articlePageNumber = 1;
+var authorPageNumber = 1;
 
-var addCols = function (num) {
-    for (var i = 1; i <= num; i++) {
-        var myCol = $('<div class="accordion-item"> <h2 class="accordion-header" id="flush-heading' + i + '"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse' + i + '" aria-expanded="false" aria-controls="flush-collapseOne' + i + '">Title ' + i + ' </button></h2><div id="flush-collapse' + i + '" class="accordion-collapse collapse" aria-labelledby="flush-heading' + i + '" data-bs-parent="#accordionFlushExample"><div class="accordion-body">Tutto il resto </div></div></div>');
-
-        myCol.appendTo('#accordionFlushExample');
-    }
-};
+var articleCounter;
+var authorCounter;
 
 
-var addCols2 = function (num) {
-    for (var i = 1; i <= num; i++) {
-        var myCol = $('<div class="accordion-item"> <h2 class="accordion-header" id="flush-heading' + i + '"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse' + i + '" aria-expanded="false" aria-controls="flush-collapseOne' + i + '">Title ' + i + ' </button></h2><div id="flush-collapse' + i + '" class="accordion-collapse collapse" aria-labelledby="flush-heading' + i + '" data-bs-parent="#accordionFlushAutExample"><div class="accordion-body">Tutto il resto </div></div></div>');
 
-        myCol.appendTo('#accordionFlushAutExample');
-    }
-};
-
-
-$(document).ready(function () {
-    var accordionHeight = $(".accordion-item").height();
-    var height = $('#results').height() - accordionHeight * 2;
+function setAccordionNumber() {
+    let accordionHeight = $(".accordion-item").height();
+    let height = $('#results').height() - accordionHeight * 2;
     nAccordion = Math.floor(height / accordionHeight);
-});
+}
+
 
 $(document).ready(function () {
-    $("#btnGen").click(function () {
-        addCols();
-        return false;
-    });
+    setAccordionNumber();
 });
+
 
 $(document).ready(function () {
     $("#btnFilter").click(function () {
@@ -113,48 +102,84 @@ $(document).ready(function () {
 
 var checkVisibility = function () {
 
-    $("#accordionFlushExample .accordion-item").slice(nArticles - nAccordion, nArticles).hide();
+    /*$("#accordionFlushExample .accordion-item").slice(nArticles - nAccordion, nArticles).hide();
     $("#accordionFlushAutExample .accordion-item").slice(nAuthors - nAccordion, nAuthors).hide();
 
     $("#accordionFlushExample .accordion-item").slice(nArticles + nAccordion, nArticles + 2 * nAccordion).hide();
     $("#accordionFlushAutExample .accordion-item").slice(nAuthors + nAccordion, nAuthors + 2 * nAccordion).hide();
-
+*/
     $("#accordionFlushExample .accordion-item").slice(nArticles, nArticles + nAccordion).show();
     $("#accordionFlushAutExample .accordion-item").slice(nAuthors, nAuthors + nAccordion).show();
 
 
 };
 
+function renderAuthorsAccordions() {
+let accordions = $("#accordionFlushAutExample .accordion-item");
+    let offset = nAccordion * (authorPageNumber - 1);
+    accordions.hide();
+    for (let i = offset; i <= offset + nAccordion; i++) {
+        accordions.eq(i).show();
+        console.log(i);
+    }
+}
+
+function renderArticleAccordions() {
+    let accordions = $("#accordionFlushExample .accordion-item");
+    let offset = nAccordion * (articlePageNumber - 1);
+    accordions.hide();
+    for (let i = offset; i <= offset + nAccordion; i++) {
+        accordions.eq(i).show();
+    }
+
+}
+
 $(document).ready(function () {
     $("#btnPrevResArt").click(function () {
 
         nArticles -= nAccordion;
+        articlePageNumber -= 1;
+        if(articlePageNumber < 1)
+            articlePageNumber = 1;
         if (nArticles < 0) {
             nArticles = 0;
         }
-        checkVisibility();
+        renderArticleAccordions();
+        // checkVisibility();
     });
-
     $("#btnNextResArt").click(function () {
-        if (count1 > nAccordion && nArticles < count1 - nAccordion) {
+        if(articlePageNumber * nAccordion < articleCounter)
+            articlePageNumber += 1;
+        if (count1 > nAccordion) {
             nArticles += nAccordion;
         }
-        checkVisibility();
+        renderArticleAccordions();
+        // checkVisibility();
     });
 
     $("#btnPrevResAut").click(function () {
 
-        nAuthors -= nAccordion;
-        if (nAuthors < 0) {
-            nAuthors = 0;
+        nArticles -= nAccordion;
+        authorPageNumber -= 1;
+        if(authorPageNumber < 1)
+            authorPageNumber = 1;
+        if (nArticles < 0) {
+            nArticles = 0;
         }
-        checkVisibility();
+        articlePageNumber = 1;
+        renderAuthorsAccordions();
+        // checkVisibility();
     });
     $("#btnNextResAut").click(function () {
-        if (count2 > nAccordion && nAuthors < count2 - nAccordion) {
-            nAuthors += nAccordion;
+        if(authorPageNumber * nAccordion < authorCounter) {
+            authorPageNumber += 1;
         }
-        checkVisibility();
+        if (count1 > nAccordion) {
+            nArticles += nAccordion;
+        }
+        authorPageNumber = 1;
+        renderAuthorsAccordions();
+        // checkVisibility();
     });
 
 });
@@ -185,15 +210,23 @@ function search() {
             if (this.readyState === 4 && this.status === 200) {
                 document.getElementById("accordionFlushExample").innerHTML =
                     this.responseText;
+                articleCounter = $("#accordionFlushExample").children().length;
+                document.getElementById("counter").innerHTML = articleCounter;
+                setAccordionNumber();
+                renderArticleAccordions()
             }
         };
-
         // resources
+
         const xhttpAuthors = new XMLHttpRequest();
         xhttpAuthors.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 document.getElementById("accordionFlushAutExample").innerHTML =
                     this.responseText;
+                authorCounter = $("#accordionFlushAutExample").children().length;
+                document.getElementById("counter2").innerHTML = authorCounter;
+                setAccordionNumber();
+                renderAuthorsAccordions();
             }
         };
         xhttpResources.open("GET", "resources" + searched + min_date + max_date + author + publisher + languages, true);
@@ -202,8 +235,6 @@ function search() {
         document.getElementById("accordionFlushExample").innerHTML = "Caricamento..."
         document.getElementById("accordionFlushAutExample").innerHTML = "Caricamento..."
 
-        nArticles = 0;
-        nAuthors = 0;
 
         xhttpResources.send();
         xhttpAuthors.send();

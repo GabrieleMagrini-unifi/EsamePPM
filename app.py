@@ -159,7 +159,7 @@ def resources_search_result():
         language_filter = language_filter[:-3] + ") ."
     query = """
                SELECT ?code ?title ?date ?creator_name ?publisher_name WHERE {                   
-               ?code rdfs:label ?title filter contains (?title, "%s") .
+               ?code rdfs:label ?title filter contains (lcase(?title), lcase("%s")) .
                     ?code dcterms:issued ?date .
                     ?code dcterms:creator ?creator .
                     ?creator foaf:name ?creator_name .

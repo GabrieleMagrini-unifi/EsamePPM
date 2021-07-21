@@ -127,8 +127,8 @@ body {
 
 /* accordion */
 
-.accordion-item {
-    display: none;
+.accordion-header{
+    /*display: none;*/
 }
 
 
