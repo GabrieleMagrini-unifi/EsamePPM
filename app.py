@@ -6,7 +6,7 @@ from franz.openrdf.connect import ag_connect
 from franz.openrdf.query.query import QueryLanguage
 import re
 
-HOST = "localhost"
+HOST = "93.149.225.174"
 PORT = 10035
 USER = "manu"
 PASSWORD = "manu"
