@@ -6,13 +6,13 @@ from franz.openrdf.connect import ag_connect
 from franz.openrdf.query.query import QueryLanguage
 import re
 
-HOST = "93.149.225.174"
+HOST = "localhost"
 PORT = 10035
 USER = "manu"
 PASSWORD = "manu"
 
 server = AllegroGraphServer(HOST, PORT, USER, PASSWORD)
-conn = server.openCatalog("system").getRepository("system", Repository.OPEN).getConnection()
+conn = server.openCatalog("main").getRepository("galileo", Repository.OPEN).getConnection()
 
 app = Flask(__name__)
 
@@ -113,7 +113,7 @@ def authors_search_result():
     query = """
                 SELECT ?code ?name ?title WHERE {
                     ?code rdf:type foaf:Person .
-                    ?code foaf:name ?name filter contains(lcase(?name), lcase("^%s")) .
+                    ?code foaf:name ?name filter contains(lcase(?name), lcase("%s")) .
                     ?resource_id dcterms:creator ?code .
                     ?resource_id rdfs:label ?title .
                 } order by ?code """ % sparql_query_elements['input']

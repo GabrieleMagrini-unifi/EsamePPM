@@ -120,7 +120,6 @@ let accordions = $("#accordionFlushAutExample .accordion-item");
     accordions.hide();
     for (let i = offset; i <= offset + nAccordion; i++) {
         accordions.eq(i).show();
-        console.log(i);
     }
 }
 
@@ -166,7 +165,7 @@ $(document).ready(function () {
         if (nArticles < 0) {
             nArticles = 0;
         }
-        articlePageNumber = 1;
+        console.log(authorPageNumber);
         renderAuthorsAccordions();
         // checkVisibility();
     });
@@ -177,7 +176,7 @@ $(document).ready(function () {
         if (count1 > nAccordion) {
             nArticles += nAccordion;
         }
-        authorPageNumber = 1;
+        console.log(authorPageNumber);
         renderAuthorsAccordions();
         // checkVisibility();
     });
@@ -234,10 +233,9 @@ function search() {
         xhttpResources.open("GET", "resources" + searched + min_date + max_date + author + publisher + languages, true);
         xhttpAuthors.open("GET", "authors" + searched, true);
 
-        document.getElementById("accordionFlushExample").innerHTML = "Caricamento..."
-        document.getElementById("accordionFlushAutExample").innerHTML = "Caricamento..."
 
-        document.getElementById("counter1").innerText = "Loading";
+
+        document.getElementById("counter").innerText = "Loading";
         document.getElementById("counter2").innerHTML = "Loading";
 
 
