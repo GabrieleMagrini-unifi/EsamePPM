@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request
-import franz
 from franz.openrdf.sail.allegrographserver import AllegroGraphServer
 from franz.openrdf.repository.repository import Repository
-from franz.openrdf.connect import ag_connect
 from franz.openrdf.query.query import QueryLanguage
 import re
 
@@ -89,14 +87,6 @@ def sanitize_date(date: str):
 
 def contained(superset: tuple[int, int], subset: tuple[int, int]) -> bool:
     return superset[0] <= subset[0] and subset[1] <= superset[1]
-
-
-def execute_query(query: str):
-    result = []
-    res = conn.prepareTupleQuery(QueryLanguage.SPARQL, "SELECT DISTINCT ?p WHERE { ?s ?p ?o .}").evaluate()
-    for r in res:
-        result.append(str(r.getValue('p')))
-    return result
 
 
 @app.route("/")
@@ -192,11 +182,3 @@ def resources_search_result():
                 resources[-1]['creator'] += "; " + str(r.getValue('creator_name'))[1:-1]
     # query_results = execute_query(query)
     return render_template("resources_search.html", results=resources)
-
-
-@app.route("/test")
-def test():
-    page = ""
-    for element in execute_query(""):
-        page += f"<p>{element[1:-1]}</p>"
-    return page

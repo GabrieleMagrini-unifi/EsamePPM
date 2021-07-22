@@ -27,7 +27,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#btnFilter").click(function () {
 
-        var myDiv = document.getElementById('filter-panel');
+        let myDiv = document.getElementById('filter-panel');
 
         if (myDiv.style.display == 'block') {
             myDiv.style.display = 'none';
@@ -38,18 +38,19 @@ $(document).ready(function () {
 });
 
 $(window).resize(function () {
+    let myDiv;
     if ($(window).width() > 576) {
-        var myDiv = document.getElementById('filter-panel');
+        myDiv = document.getElementById('filter-panel');
         myDiv.style.display = 'block';
     }
     if ($(window).width() <= 576) {
-        var myDiv = document.getElementById('filter-panel');
+        myDiv = document.getElementById('filter-panel');
         myDiv.style.display = 'none';
     }
 });
 
 $(document).ready(function () {
-    var checkList = document.getElementById('languages-filter');
+    let checkList = document.getElementById('languages-filter');
     checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
         if (checkList.classList.contains('visible'))
             checkList.classList.remove('visible');
@@ -61,8 +62,8 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#btnHome").click(function () {
 
-        var myDiv = document.getElementById('home');
-        var myDiv2 = document.getElementById('users');
+        let myDiv = document.getElementById('home');
+        let myDiv2 = document.getElementById('users');
 
         if (myDiv.style.display != 'block') {
             myDiv.style.display = 'block';
@@ -75,10 +76,8 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $("#btnAut").click(function () {
-
-        var myDiv = document.getElementById('users');
-        var myDiv2 = document.getElementById('home');
-
+        let myDiv = document.getElementById('users');
+        let myDiv2 = document.getElementById('home');
         if (myDiv.style.display != 'block') {
             myDiv.style.display = 'block';
             myDiv2.style.display = 'none';
@@ -89,30 +88,18 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-
     count1 = $("#accordionFlushExample .accordion-item").length;
     document.getElementById("counter").textContent = count1;
-
     count2 = $("#accordionFlushAutExample .accordion-item").length;
     document.getElementById("counter2").textContent = count2;
-
     checkVisibility();
-
 });
 
-var checkVisibility = function () {
-
-    /*$("#accordionFlushExample .accordion-item").slice(nArticles - nAccordion, nArticles).hide();
-    $("#accordionFlushAutExample .accordion-item").slice(nAuthors - nAccordion, nAuthors).hide();
-
-    $("#accordionFlushExample .accordion-item").slice(nArticles + nAccordion, nArticles + 2 * nAccordion).hide();
-    $("#accordionFlushAutExample .accordion-item").slice(nAuthors + nAccordion, nAuthors + 2 * nAccordion).hide();
-*/
+function checkVisibility() {
     $("#accordionFlushExample .accordion-item").slice(nArticles, nArticles + nAccordion).show();
     $("#accordionFlushAutExample .accordion-item").slice(nAuthors, nAuthors + nAccordion).show();
 
-
-};
+}
 
 function renderAuthorsAccordions() {
 let accordions = $("#accordionFlushAutExample .accordion-item");
@@ -130,12 +117,10 @@ function renderArticleAccordions() {
     for (let i = offset; i <= offset + nAccordion; i++) {
         accordions.eq(i).show();
     }
-
 }
 
 $(document).ready(function () {
     $("#btnPrevResArt").click(function () {
-
         nArticles -= nAccordion;
         articlePageNumber -= 1;
         if(articlePageNumber < 1)
@@ -144,7 +129,6 @@ $(document).ready(function () {
             nArticles = 0;
         }
         renderArticleAccordions();
-        // checkVisibility();
     });
     $("#btnNextResArt").click(function () {
         if(articlePageNumber * nAccordion < articleCounter)
@@ -153,38 +137,21 @@ $(document).ready(function () {
             nArticles += nAccordion;
         }
         renderArticleAccordions();
-        // checkVisibility();
     });
-
     $("#btnPrevResAut").click(function () {
-
-        nArticles -= nAccordion;
         authorPageNumber -= 1;
         if(authorPageNumber < 1)
             authorPageNumber = 1;
-        if (nArticles < 0) {
-            nArticles = 0;
-        }
-        console.log(authorPageNumber);
         renderAuthorsAccordions();
-        // checkVisibility();
     });
     $("#btnNextResAut").click(function () {
         if(authorPageNumber * nAccordion < authorCounter) {
             authorPageNumber += 1;
         }
-        if (count1 > nAccordion) {
-            nArticles += nAccordion;
-        }
-        console.log(authorPageNumber);
         renderAuthorsAccordions();
-        // checkVisibility();
     });
-
 });
-
 function search() {
-
     let searched = "?input=" + document.getElementById('search-input').value;
     if (searched.length > 7) {
         let min_date = "&min_date=" + document.getElementById('min_date').value;
@@ -203,7 +170,6 @@ function search() {
         languages = languages.slice(0, languages.length - 3)
         if (languages.length <= 9) languages = ""
 
-        // resources
         const xhttpResources = new XMLHttpRequest();
         xhttpResources.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
@@ -216,8 +182,6 @@ function search() {
                 renderArticleAccordions()
             }
         };
-        // resources
-
         const xhttpAuthors = new XMLHttpRequest();
         xhttpAuthors.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
@@ -232,18 +196,12 @@ function search() {
         };
         xhttpResources.open("GET", "resources" + searched + min_date + max_date + author + publisher + languages, true);
         xhttpAuthors.open("GET", "authors" + searched, true);
-
-
-
         document.getElementById("counter").innerText = "Loading";
         document.getElementById("counter2").innerHTML = "Loading";
-
-
         xhttpResources.send();
         xhttpAuthors.send();
     }
 }
-
 $(document).keyup(function(event) {
     if (event.which === 13) {
         search();
