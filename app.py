@@ -4,6 +4,22 @@ from franz.openrdf.repository.repository import Repository
 from franz.openrdf.query.query import QueryLanguage
 import re
 
+
+# TODO GABRI:
+#  - se è aperta la tab degli articoli visualizzazione classica, se è aperta tab autori i risultati
+#  diventano col-12 e filter sparisce;
+#  - aggiungi una splash screen con la descrizione del sito, un mio consiglio sarebbe fare che all'inizio tutto il sito
+#  principale è nascosto, si vede solo titolo del sito descrizione e barra di ricerca, appena clicchi sulla barra di
+#  ricerca appare il sito classico, magari però pensa ad altri approcci se questo ti piace poco;
+
+
+# TODO EMA:
+#  - implementa i link alle opere dagli autori, usando il parametro 'code', cosi appare sempre un solo risultato;
+#  - implementa quella cosa di wiki sparql per le immagini degli autori;
+#  - ricerca per lingua deve rendere lo stesso numero di risultati, con evidenziati però quelli che matchano
+#    (lingua a pedice?)
+
+
 HOST = "localhost"
 PORT = 10035
 USER = "manu"
