@@ -40,8 +40,12 @@ $(document).ready(function () {
 $(window).resize(function () {
     let myDiv;
     if ($(window).width() > 576) {
+        let myDiv4 = document.getElementById('results');
         myDiv = document.getElementById('filter-panel');
         myDiv.style.display = 'block';
+        if (myDiv4.classList.contains('col-md-12')){
+            myDiv.style.display = 'none';
+        }
     }
     if ($(window).width() <= 576) {
         myDiv = document.getElementById('filter-panel');
@@ -163,6 +167,20 @@ $(document).ready(function () {
     });
 });
 function search() {
+    let myDiv = document.getElementById('welcome_info');
+    let myDiv2 = document.getElementById('btnPrevResArt');
+    let myDiv3 = document.getElementById('btnNextResArt');
+    let myDiv4 = document.getElementById('btnPrevResAut');
+    let myDiv5 = document.getElementById('btnNextResAut');
+
+    if(myDiv.style.display != 'none'){
+       myDiv.style.display  = 'none';
+       myDiv2.style.display = 'block';
+       myDiv3.style.display = 'block';
+       myDiv4.style.display = 'block';
+       myDiv5.style.display = 'block';
+    }
+
     let searched = "?input=" + document.getElementById('search-input').value;
     if (searched.length > 7) {
         let min_date = "&min_date=" + document.getElementById('min_date').value;

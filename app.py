@@ -6,8 +6,7 @@ import re
 
 
 # TODO GABRI:
-#  - se è aperta la tab degli articoli visualizzazione classica, se è aperta tab autori i risultati
-#  diventano col-12 e filter sparisce;
+
 #  - aggiungi una splash screen con la descrizione del sito, un mio consiglio sarebbe fare che all'inizio tutto il sito
 #  principale è nascosto, si vede solo titolo del sito descrizione e barra di ricerca, appena clicchi sulla barra di
 #  ricerca appare il sito classico, magari però pensa ad altri approcci se questo ti piace poco;
