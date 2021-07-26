@@ -14,7 +14,7 @@ var authorCounter;
 
 function setAccordionNumber() {
     let accordionHeight = $(".accordion-item").height();
-    let height = $('#results').height() - accordionHeight * 2;
+    let height = $('#results').height() - accordionHeight * 3;
     nAccordion = Math.floor(height / accordionHeight);
 }
 
@@ -64,23 +64,34 @@ $(document).ready(function () {
 
         let myDiv = document.getElementById('home');
         let myDiv2 = document.getElementById('users');
-
+        let myDiv3 = document.getElementById('filter-panel');
+        let myDiv4 = document.getElementById('results');
         if (myDiv.style.display != 'block') {
             myDiv.style.display = 'block';
             myDiv2.style.display = 'none';
+            myDiv3.style.display = 'block';
+            myDiv4.classList.remove('col-md-12');
+            myDiv4.classList.add('col-md-7');
             this.classList.add("active");
             document.getElementById("btnAut").classList.remove("active");
         }
     });
 });
 
+
+
 $(document).ready(function () {
     $("#btnAut").click(function () {
         let myDiv = document.getElementById('users');
         let myDiv2 = document.getElementById('home');
+        let myDiv3 = document.getElementById('filter-panel');
+        let myDiv4 = document.getElementById('results');
         if (myDiv.style.display != 'block') {
             myDiv.style.display = 'block';
             myDiv2.style.display = 'none';
+            myDiv3.style.display = 'none';
+            myDiv4.classList.remove('col-md-7');
+            myDiv4.classList.add('col-md-12');
             this.classList.add("active");
             document.getElementById("btnHome").classList.remove("active");
         }

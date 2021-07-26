@@ -20,7 +20,7 @@ import re
 #    (lingua a pedice?)
 
 
-HOST = "localhost"
+HOST = "93.66.209.168"
 PORT = 10035
 USER = "manu"
 PASSWORD = "manu"
