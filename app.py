@@ -7,9 +7,7 @@ import re
 
 # TODO GABRI:
 
-#  - aggiungi una splash screen con la descrizione del sito, un mio consiglio sarebbe fare che all'inizio tutto il sito
-#  principale è nascosto, si vede solo titolo del sito descrizione e barra di ricerca, appena clicchi sulla barra di
-#  ricerca appare il sito classico, magari però pensa ad altri approcci se questo ti piace poco;
+#  perfeziona il paragrafo di benvenuto, aggiungi nome/logo nella navbar
 
 
 # TODO EMA:
