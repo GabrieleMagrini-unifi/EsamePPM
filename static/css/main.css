@@ -24,8 +24,8 @@ body {
 /* filters */
 
 .input-group {
-    margin-right: 10%;
-    margin-left: 10%;
+    margin-right: 20%;
+    margin-left: 20%;
 }
 
 .ms-n5 {
@@ -135,4 +135,14 @@ body {
     color: lightgray;
     text-align: center;
     padding: 10px;
+}
+
+/* Welcome info */
+
+#welcome_info{
+    border: 2px solid #949899;
+    margin: 1em 1em 1em 1em;
+    width: 96%;
+    padding: 10px;
+    background: #dbe3e3;
 }

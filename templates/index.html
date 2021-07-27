@@ -22,11 +22,9 @@
 
 <nav class="navbar navbar-light bg-light navbar-expand-lg fixed-top">
     <div class="input-group">
-        <input class="form-control border-end-0 border rounded-pill" type="search" placeholder="Search"
-               id="search-input">
+        <input class="form-control border-end-0 border rounded-pill" type="search" placeholder="Search"  id="search-input">
         <span class="input-group-append">
-            <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5" type="button"
-                    onclick="search()">
+            <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5" type="button" onclick="search()">
                 <i class="fa fa-search"></i>
             </button>
         </span>
@@ -35,6 +33,11 @@
         <button type="button" class="btn btn-light rounded-2 d-sm-none" id="btnFilter">
             <span class="glyphicon glyphicon-cog"></span>Filters
         </button>
+
+        <button type="button" class="btn btn-light rounded-2 ms-2" id="btnHelp" onclick="help()">
+            <i class="far fa-question-circle"></i>
+        </button>
+
     </div>
 
 
@@ -182,7 +185,7 @@
                     <button type="button" class="btn btn-outline-dark" style="display: none" id="btnNextResAut">Next results</button>
                 </div>
 
-                <div id="welcome_info">
+                <div id="welcome_info" class="float-start">
                     <p>
                         Welcome to the Galileo's museum database search page!<br>
                         To use this tool, you just have to insert the desired terms of search in the search bar <br>

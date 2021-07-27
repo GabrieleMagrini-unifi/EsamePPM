@@ -166,6 +166,7 @@ $(document).ready(function () {
         renderAuthorsAccordions();
     });
 });
+
 function search() {
     let myDiv = document.getElementById('welcome_info');
     let myDiv2 = document.getElementById('btnPrevResArt');
@@ -231,8 +232,18 @@ function search() {
         xhttpAuthors.send();
     }
 }
+
 $(document).keyup(function(event) {
     if (event.which === 13) {
         search();
     }
 });
+
+function help() {
+   let myDiv = document.getElementById('welcome_info');
+   if(myDiv.style.display != 'none'){
+       myDiv.style.display  = 'none';
+   }else if(myDiv.style.display != 'block'){
+       myDiv.style.display  = 'block';
+   }
+}
