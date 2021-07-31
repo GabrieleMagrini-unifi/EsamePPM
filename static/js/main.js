@@ -11,7 +11,6 @@ var articleCounter;
 var authorCounter;
 
 
-
 function setAccordionNumber() {
     let accordionHeight = $(".accordion-item").height();
     let height = $('#results').height() - accordionHeight * 3;
@@ -43,7 +42,7 @@ $(window).resize(function () {
         let myDiv4 = document.getElementById('results');
         myDiv = document.getElementById('filter-panel');
         myDiv.style.display = 'block';
-        if (myDiv4.classList.contains('col-md-12')){
+        if (myDiv4.classList.contains('col-md-12')) {
             myDiv.style.display = 'none';
         }
     }
@@ -83,7 +82,6 @@ $(document).ready(function () {
 });
 
 
-
 $(document).ready(function () {
     $("#btnAut").click(function () {
         let myDiv = document.getElementById('users');
@@ -117,7 +115,7 @@ function checkVisibility() {
 }
 
 function renderAuthorsAccordions() {
-let accordions = $("#accordionFlushAutExample .accordion-item");
+    let accordions = $("#accordionFlushAutExample .accordion-item");
     let offset = nAccordion * (authorPageNumber - 1);
     accordions.hide();
     for (let i = offset; i <= offset + nAccordion; i++) {
@@ -138,7 +136,7 @@ $(document).ready(function () {
     $("#btnPrevResArt").click(function () {
         nArticles -= nAccordion;
         articlePageNumber -= 1;
-        if(articlePageNumber < 1)
+        if (articlePageNumber < 1)
             articlePageNumber = 1;
         if (nArticles < 0) {
             nArticles = 0;
@@ -146,7 +144,7 @@ $(document).ready(function () {
         renderArticleAccordions();
     });
     $("#btnNextResArt").click(function () {
-        if(articlePageNumber * nAccordion < articleCounter)
+        if (articlePageNumber * nAccordion < articleCounter)
             articlePageNumber += 1;
         if (count1 > nAccordion) {
             nArticles += nAccordion;
@@ -155,12 +153,12 @@ $(document).ready(function () {
     });
     $("#btnPrevResAut").click(function () {
         authorPageNumber -= 1;
-        if(authorPageNumber < 1)
+        if (authorPageNumber < 1)
             authorPageNumber = 1;
         renderAuthorsAccordions();
     });
     $("#btnNextResAut").click(function () {
-        if(authorPageNumber * nAccordion < authorCounter) {
+        if (authorPageNumber * nAccordion < authorCounter) {
             authorPageNumber += 1;
         }
         renderAuthorsAccordions();
@@ -174,12 +172,12 @@ function search() {
     let myDiv4 = document.getElementById('btnPrevResAut');
     let myDiv5 = document.getElementById('btnNextResAut');
 
-    if(myDiv.style.display != 'none'){
-       myDiv.style.display  = 'none';
-       myDiv2.style.display = 'block';
-       myDiv3.style.display = 'block';
-       myDiv4.style.display = 'block';
-       myDiv5.style.display = 'block';
+    if (myDiv.style.display != 'none') {
+        myDiv.style.display = 'none';
+        myDiv2.style.display = 'block';
+        myDiv3.style.display = 'block';
+        myDiv4.style.display = 'block';
+        myDiv5.style.display = 'block';
     }
 
     let searched = "?input=" + document.getElementById('search-input').value;
@@ -233,17 +231,50 @@ function search() {
     }
 }
 
-$(document).keyup(function(event) {
+$(document).keyup(function (event) {
     if (event.which === 13) {
         search();
     }
 });
 
 function help() {
-   let myDiv = document.getElementById('welcome_info');
-   if(myDiv.style.display != 'none'){
-       myDiv.style.display  = 'none';
-   }else if(myDiv.style.display != 'block'){
-       myDiv.style.display  = 'block';
-   }
+    let myDiv = document.getElementById('welcome_info');
+    if (myDiv.style.display != 'none') {
+        myDiv.style.display = 'none';
+    } else if (myDiv.style.display != 'block') {
+        myDiv.style.display = 'block';
+    }
+}
+
+function newSearch(id) {
+    console.log(id);
+    const xhttpResources = new XMLHttpRequest();
+    xhttpResources.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            document.getElementById("accordionFlushExample").innerHTML =
+                this.responseText;
+            articleCounter = $("#accordionFlushExample").children().length;
+            document.getElementById("counter").innerHTML = articleCounter;
+            articlePageNumber = 1;
+            setAccordionNumber();
+            renderArticleAccordions();
+
+            // let myDiv = document.getElementById('home');
+            // let myDiv2 = document.getElementById('users');
+            // let myDiv3 = document.getElementById('filter-panel');
+            // let myDiv4 = document.getElementById('results');
+            // if (myDiv.style.display != 'block') {
+            //     myDiv.style.display = 'block';
+            //     myDiv2.style.display = 'none';
+            //     myDiv3.style.display = 'block';
+            //     myDiv4.classList.remove('col-md-12');
+            //     myDiv4.classList.add('col-md-7');
+            //     myDiv.classList.add("active");
+            //     document.getElementById("btnAut").classList.remove("active");
+            // }
+        };
+    }
+    xhttpResources.open("GET", "resources?code=" + id, true);
+    document.getElementById("counter").innerText = "Loading";
+    xhttpResources.send();
 }

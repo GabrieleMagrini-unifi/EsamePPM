@@ -6,7 +6,6 @@ import re
 
 
 # TODO GABRI:
-
 #  perfeziona il paragrafo di benvenuto, aggiungi nome/logo nella navbar
 
 
@@ -17,7 +16,7 @@ import re
 #    (lingua a pedice?)
 
 
-HOST = "93.66.209.168"
+HOST = "localhost"
 PORT = 10035
 USER = "manu"
 PASSWORD = "manu"
@@ -114,7 +113,7 @@ def authors_search_result():
         'input': request.values['input'] if 'input' in request.values.keys() else ""
     }
     query = """
-                SELECT ?code ?name ?title WHERE {
+                SELECT ?code ?name ?title ?resource_id WHERE {
                     ?code rdf:type foaf:Person .
                     ?code foaf:name ?name filter contains(lcase(?name), lcase("%s")) .
                     ?resource_id dcterms:creator ?code .
@@ -124,9 +123,11 @@ def authors_search_result():
     for r in query_result:
         if len(authors) < 1 or authors[-1]['id'] not in str(r.getValue('code')):
             authors.append({'id': str(r.getValue('code'))[1:-1].split('/')[-1], 'name': str(r.getValue('name'))[1:-1],
-                            'works': [str(r.getValue('title'))[1:-1]]})
+                            'works': [
+                                (str(r.getValue('title'))[1:-1], str(r.getValue('resource_id')))
+                            ]})
         else:
-            authors[-1]['works'].append(str(r.getValue('title'))[1:-1])
+            authors[-1]['works'].append((str(r.getValue('title'))[1:-1], str(r.getValue('resource_id'))))
     return render_template("authors_search.html", authors=authors)
 
 
@@ -134,7 +135,6 @@ def authors_search_result():
 def resources_search_result():
     # dizioniario roba get
 
-    keys = {'author', 'publisher', 'min_date', 'max_date', 'languages', 'input'}
     # sparql_query_elements = request.values
     sparql_query_elements = {
         'input': request.values['input'] if 'input' in request.values.keys() else "",
@@ -142,36 +142,51 @@ def resources_search_result():
         'min_date': request.values['min_date'] if 'min_date' in request.values.keys() else "",
         'max_date': request.values['max_date'] if 'max_date' in request.values.keys() else "",
         'languages': request.values['languages'] if 'languages' in request.values.keys() else "",
-        'author': request.values['author'] if 'author' in request.values.keys() else ""
+        'author': request.values['author'] if 'author' in request.values.keys() else "",
+        'code': request.values['code'] if 'code' in request.values.keys() else ""
     }
 
-    sparql_query_elements['languages'] = sanitize_lang(sparql_query_elements['languages'])
-    author_filter = publisher_filter = language_filter = ""
+    if sparql_query_elements['code'] == "":
+        sparql_query_elements['languages'] = sanitize_lang(sparql_query_elements['languages'])
+        author_filter = publisher_filter = language_filter = ""
 
-    if not sparql_query_elements['author'] == "":
-        author_filter = """ filter contains(?creator_name, "%s") 
-            """ % sparql_query_elements['author']
+        if not sparql_query_elements['author'] == "":
+            author_filter = """ filter contains(?creator_name, "%s") 
+                """ % sparql_query_elements['author']
 
-    if not sparql_query_elements['publisher'] == "":
-        publisher_filter = """ filter contains(?publisher_name, "%s")
-            """ % sparql_query_elements['publisher']
+        if not sparql_query_elements['publisher'] == "":
+            publisher_filter = """ filter contains(?publisher_name, "%s")
+                """ % sparql_query_elements['publisher']
 
-    if len(sparql_query_elements['languages']) > 0:
-        language_filter = "?code dcterms:language ?lang filter ("
-        for lang in sparql_query_elements['languages']:
-            language_filter += f'(?lang = "{lang}") || '
-        language_filter = language_filter[:-3] + ") ."
-    query = """
-               SELECT ?code ?title ?date ?creator_name ?publisher_name WHERE {                   
-               ?code rdfs:label ?title filter contains (lcase(?title), lcase("%s")) .
-                    ?code dcterms:issued ?date .
-                    ?code dcterms:creator ?creator .
-                    ?creator foaf:name ?creator_name .
-                    ?code dcterms:publisher ?pub .
-                    ?pub foaf:name ?publisher_name %s.
-            """ % (
-        sparql_query_elements['input'],
-        publisher_filter) + author_filter + publisher_filter + language_filter + "} order by ?code"
+        if len(sparql_query_elements['languages']) > 0:
+            language_filter = "?code dcterms:language ?lang filter ("
+            for lang in sparql_query_elements['languages']:
+                language_filter += f'(?lang = "{lang}") || '
+            language_filter = language_filter[:-3] + ") ."
+        query = """
+                   SELECT ?code ?title ?date ?creator_name ?publisher_name WHERE {                   
+                   ?code rdfs:label ?title filter contains (lcase(?title), lcase("%s")) .
+                        ?code dcterms:issued ?date .
+                        ?code dcterms:creator ?creator .
+                        ?creator foaf:name ?creator_name .
+                        ?code dcterms:publisher ?pub .
+                        ?pub foaf:name ?publisher_name %s.
+                """ % (
+            sparql_query_elements['input'],
+            publisher_filter) + author_filter + publisher_filter + language_filter + "} order by ?code"
+    else:
+        # todo se un dato non è definito l'elemento non viene ritornato: spezza in due query e due funzioni
+        query = """
+                    SELECT ?code ?title ?date ?creator_name ?publisher_name WHERE {                   
+                        ?code rdfs:label ?title filter (?code=%s) .
+                        ?code dcterms:issued ?date .
+                        ?code dcterms:creator ?creator .
+                        ?creator foaf:name ?creator_name .
+                        ?code dcterms:publisher ?pub .
+                        ?pub foaf:name ?publisher_name .
+                        }
+        """ % sparql_query_elements['code']
+    print(query)
     resources = []
     query_result = conn.prepareTupleQuery(QueryLanguage.SPARQL, query).evaluate()
     if sparql_query_elements['min_date'] == "":
@@ -184,12 +199,12 @@ def resources_search_result():
                      sanitize_date(str(r.getValue('date')))):
             if len(resources) < 1 or resources[len(resources) - 1]['id'] not in str(r.getValue('code')):
                 resources.append(
-                    {'id': str(r.getValue('code'))[1:-1].split("/")[-1], 'title': str(r.getValue('title'))[1:-1],
+                    {'id': str(r.getValue('code')), 'title': str(r.getValue('title'))[1:-1],
                      'date': str(r.getValue('date'))[1:-1],
                      'creator': str(r.getValue('creator_name'))[1:-1],
                      'publisher': str(r.getValue('publisher_name'))[1:-1],
                      'preview': str(r.getValue('title'))[1:81] + "..." if len(str(r.getValue('title'))) > 82
-                        else str(r.getValue('title'))[1:-1]}
+                     else str(r.getValue('title'))[1:-1]}
                 )
             else:
                 resources[-1]['creator'] += "; " + str(r.getValue('creator_name'))[1:-1]

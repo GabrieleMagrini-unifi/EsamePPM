@@ -16,7 +16,9 @@
                 <ul class="no-decoration">
                     {% for work in author['works'] %}
                         <li>
-                            {{ work }}
+                            <a onclick='newSearch( "{{ work[1] }}" );'>
+                                {{ work[0] }}
+                            </a>
                         </li>
                     {% endfor %}
                 </ul>
