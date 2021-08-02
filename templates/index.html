@@ -20,11 +20,44 @@
 
 <body>
 
-<nav class="navbar navbar-light bg-light navbar-expand-lg fixed-top">
+{#
+<span id="helper">help</span>
+#}
+
+<div id="bootstrap">
+    <div class="container pt-lg-3">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3 col-12">
+                <h2>Galileo Search Engine</h2>
+                <p>Welcome to the Galileo's museum database search page!<br>
+                    To use this tool, you just have to insert the desired terms of search in the search bar <br>
+                    you can find at the top of this page.<br>
+                    You'll see 2 different result pages, Articles and Authors: to navigate into one or another,<br>
+                    you must simply click on the corresponding button.<br>
+                    If you want to better define the search, you can use the filter panel on <br>
+                    the left(this only works for articles, not authors).<br>
+                    There you can choose between specific languages, time periods or authors' names.<br>
+                    When you are ready, simply insert the terms of search in the search bar<br>
+                    and press enter(if you are on desktop) or click/press on the search icon <br>
+                    on the right end side of the search bar.<br>
+                    Have fun with this tool!<br></p>
+                <button class="btn btn-primary" onclick="bootstrap()">Search an article</button>
+                <button class="btn btn-secondary" onclick="bootstrap('author')">Search an author</button>
+            </div>
+            <div class="col-lg-2 col-12">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<nav class="navbar navbar-light bg-light navbar-expand-lg fixed-top" id="navbar">
     <div class="input-group">
-        <input class="form-control border-end-0 border rounded-pill" type="search" placeholder="Search"  id="search-input">
+        <input class="form-control border-end-0 border rounded-pill" type="search" placeholder="Search"
+               id="search-input">
         <span class="input-group-append">
-            <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5" type="button" onclick="search()">
+            <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5" type="button"
+                    onclick="search()">
                 <i class="fa fa-search"></i>
             </button>
         </span>
@@ -43,7 +76,7 @@
 
 </nav>
 
-<div class="container">
+<div class="container" id="main-body">
 
     <div class="row">
         <div class="col-md-4 col-xs-12  rounded-2" style="display: block" id="filter-panel">
@@ -152,7 +185,7 @@
             <h3>Results:</h3>
 
             <ul class="nav nav-tabs tabs-bordered">
-                <li class="nav-item"><a href="#home" class="nav-link active" id="btnHome">Articles <span
+                <li class="nav-item"><a href="#home" class="nav-link" id="btnHome">Articles <span
                         class="badge rounded-pill bg-success" id="counter"> 0 </span></a></li>
                 <li class="nav-item"><a href="#users" class="nav-link" id="btnAut">Authors <span
                         class="badge rounded-pill bg-danger" id="counter2"> 0 </span></a></li>
@@ -160,16 +193,18 @@
 
             <div class="tab-content">
 
-                <div class="tab-pane active" id="home">
-
+                <div class="tab-pane" id="home">
                     <div class="row contentPanel" id="prova">
                         <div class="accordion" id="accordionFlushExample">
-
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-outline-dark" style="display: none" id="btnPrevResArt">Previous results</button>
-                    <button type="button" class="btn btn-outline-dark" style="display: none" id="btnNextResArt">Next results</button>
+                    <button type="button" class="btn btn-outline-dark" style="display: none" id="btnPrevResArt">Previous
+                        results
+                    </button>
+                    <button type="button" class="btn btn-outline-dark" style="display: none" id="btnNextResArt">Next
+                        results
+                    </button>
 
                 </div>
 
@@ -181,8 +216,12 @@
 
                         </div>
                     </div>
-                    <button type="button" class="btn btn-outline-dark" style="display: none" id="btnPrevResAut">Previous results</button>
-                    <button type="button" class="btn btn-outline-dark" style="display: none" id="btnNextResAut">Next results</button>
+                    <button type="button" class="btn btn-outline-dark" style="display: none" id="btnPrevResAut">Previous
+                        results
+                    </button>
+                    <button type="button" class="btn btn-outline-dark" style="display: none" id="btnNextResAut">Next
+                        results
+                    </button>
                 </div>
 
                 <div id="welcome_info" class="float-start">

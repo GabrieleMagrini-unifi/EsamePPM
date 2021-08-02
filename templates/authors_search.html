@@ -10,18 +10,44 @@
         <div id="flush-collapseAut{{ loop.index }}" class="accordion-collapse collapse"
              aria-labelledby="flush-heading{{ loop.index }}" data-bs-parent="#accordionFlushAutExample">
             <div class="accordion-body">
-                <h4>
-                    Opere:
-                </h4>
-                <ul class="no-decoration">
-                    {% for work in author['works'] %}
-                        <li>
-                            <a onclick='newSearch( "{{ work[1] }}" );'>
-                                {{ work[0] }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
+                <div class="row">
+
+                    {% if author['picture'] != None %}
+                        <div class="col-12 col-lg-2">
+                            <img src="{{ author['picture'] }}" alt="{{ author['name'] }} picture">
+                        </div>
+                        <div class="col offset-lg-1">
+                            <h4>
+                                Opere:
+                            </h4>
+                            <ul class="no-decoration">
+                                {% for work in author['works'] %}
+                                    <li>
+                                        <a onclick='newSearch( "{{ work[1] }}" );'>
+                                            {{ work[0] }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% else %}
+                        <div class="col">
+                            <h4>
+                                Opere:
+                            </h4>
+                            <ul class="no-decoration">
+                                {% for work in author['works'] %}
+                                    <li>
+                                        <a onclick='newSearch( "{{ work[1] }}" );'>
+                                            {{ work[0] }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                {% endif %}
+                </div>
+
             </div>
         </div>
     </div>

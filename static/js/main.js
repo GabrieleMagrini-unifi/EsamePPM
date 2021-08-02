@@ -3,7 +3,8 @@ var nAuthors = 0;
 var count1 = 0;
 var count2 = 0;
 
-var nAccordion = 0;
+var nAccordionAut = 0;
+var nAccordionArt = 0;
 var articlePageNumber = 1;
 var authorPageNumber = 1;
 
@@ -12,15 +13,14 @@ var authorCounter;
 
 
 function setAccordionNumber() {
-    let accordionHeight = $(".accordion-item").height();
+    let artHeight = $("#accordionFlushExample .accordion-header").height();
+    let autHeight = $("#accordionFlushAutExample .accordion-header").height();
+    let accordionHeight = artHeight > autHeight ? artHeight : autHeight;
     let height = $('#results').height() - accordionHeight * 3;
-    nAccordion = Math.floor(height / accordionHeight);
+    nAccordionAut = nAccordionArt = Math.floor(height / accordionHeight);
+
 }
 
-
-$(document).ready(function () {
-    setAccordionNumber();
-});
 
 
 $(document).ready(function () {
@@ -105,50 +105,48 @@ $(document).ready(function () {
     document.getElementById("counter").textContent = count1;
     count2 = $("#accordionFlushAutExample .accordion-item").length;
     document.getElementById("counter2").textContent = count2;
-    checkVisibility();
 });
 
-function checkVisibility() {
-    $("#accordionFlushExample .accordion-item").slice(nArticles, nArticles + nAccordion).show();
-    $("#accordionFlushAutExample .accordion-item").slice(nAuthors, nAuthors + nAccordion).show();
-
-}
 
 function renderAuthorsAccordions() {
     let accordions = $("#accordionFlushAutExample .accordion-item");
-    let offset = nAccordion * (authorPageNumber - 1);
+    let offset = nAccordionAut * (authorPageNumber - 1);
     accordions.hide();
-    for (let i = offset; i <= offset + nAccordion; i++) {
+    console.log("Numero di pagina: " + authorPageNumber);
+    console.log("#accordion: " + nAccordionAut);
+    console.log("Offset: " + offset);
+    console.log("Elementi attivi: ");
+    for (let i = offset; i <= offset + nAccordionAut; i++) {
         accordions.eq(i).show();
-    }
-}
+        console.log(i);
 
+    }
+
+}
 function renderArticleAccordions() {
+    console.log("Numero di pagina: " + articlePageNumber);
     let accordions = $("#accordionFlushExample .accordion-item");
-    let offset = nAccordion * (articlePageNumber - 1);
+    let offset = nAccordionArt * (articlePageNumber - 1);
+    console.log("#accordion: " + nAccordionArt);
+    console.log("Offset: " + offset);
+    console.log("Elementi attivi: ");
     accordions.hide();
-    for (let i = offset; i <= offset + nAccordion; i++) {
+    for (let i = offset; i <= offset + nAccordionArt; i++) {
+        console.log(i);
         accordions.eq(i).show();
     }
 }
 
 $(document).ready(function () {
     $("#btnPrevResArt").click(function () {
-        nArticles -= nAccordion;
         articlePageNumber -= 1;
         if (articlePageNumber < 1)
             articlePageNumber = 1;
-        if (nArticles < 0) {
-            nArticles = 0;
-        }
         renderArticleAccordions();
     });
     $("#btnNextResArt").click(function () {
-        if (articlePageNumber * nAccordion < articleCounter)
+        if (articlePageNumber * nAccordionArt < articleCounter)
             articlePageNumber += 1;
-        if (count1 > nAccordion) {
-            nArticles += nAccordion;
-        }
         renderArticleAccordions();
     });
     $("#btnPrevResAut").click(function () {
@@ -158,7 +156,7 @@ $(document).ready(function () {
         renderAuthorsAccordions();
     });
     $("#btnNextResAut").click(function () {
-        if (authorPageNumber * nAccordion < authorCounter) {
+        if (authorPageNumber * nAccordionAut < authorCounter) {
             authorPageNumber += 1;
         }
         renderAuthorsAccordions();
@@ -171,6 +169,7 @@ function search() {
     let myDiv3 = document.getElementById('btnNextResArt');
     let myDiv4 = document.getElementById('btnPrevResAut');
     let myDiv5 = document.getElementById('btnNextResAut');
+
 
     if (myDiv.style.display != 'none') {
         myDiv.style.display = 'none';
@@ -200,6 +199,15 @@ function search() {
 
         const xhttpResources = new XMLHttpRequest();
         xhttpResources.onreadystatechange = function () {
+            /*if (this.readyState === 4 && this.status === 200) {
+                document.getElementById("accordionFlushExample").innerHTML =
+                    this.responseText;
+                articleCounter = $("#accordionFlushExample").children().length;
+                document.getElementById("counter").innerHTML = articleCounter;
+                articlePageNumber = 1;
+                setAccordionNumber();
+                renderArticleAccordions()
+            }*/
             if (this.readyState === 4 && this.status === 200) {
                 document.getElementById("accordionFlushExample").innerHTML =
                     this.responseText;
@@ -272,9 +280,39 @@ function newSearch(id) {
             //     myDiv.classList.add("active");
             //     document.getElementById("btnAut").classList.remove("active");
             // }
-        };
+        }
     }
-    xhttpResources.open("GET", "resources?code=" + id, true);
+    xhttpResources.open("GET", "resource_link?code=" + id, true);
     document.getElementById("counter").innerText = "Loading";
     xhttpResources.send();
+}
+
+function bootstrap(activePage) {
+    if(activePage === "author") {
+        $('#btnAut').addClass('active');
+        $('#users').addClass('active');
+        let myDiv = document.getElementById('users');
+        let myDiv2 = document.getElementById('home');
+        let myDiv3 = document.getElementById('filter-panel');
+        let myDiv4 = document.getElementById('results');
+        if (myDiv.style.display != 'block') {
+            myDiv.style.display = 'block';
+            myDiv2.style.display = 'none';
+            myDiv3.style.display = 'none';
+            myDiv4.classList.remove('col-md-7');
+            myDiv4.classList.add('col-md-12');
+            this.classList.add("active");
+            document.getElementById("btnHome").classList.remove("active");
+        }
+    } else {
+        $('#btnHome').addClass('active');
+        $('#home').addClass('active');
+    }
+    $('#bootstrap').css('opacity', '0');
+    $('#navbar').css('opacity', '100%');
+    $('#main-body').css('display', 'block');
+    $('#search-input').focus();
+    setTimeout(function(){
+        $('#bootstrap').css('z-index', -1);
+    }, 1000);
 }

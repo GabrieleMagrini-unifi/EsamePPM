@@ -3,7 +3,7 @@ from franz.openrdf.sail.allegrographserver import AllegroGraphServer
 from franz.openrdf.repository.repository import Repository
 from franz.openrdf.query.query import QueryLanguage
 import re
-
+from wikiapi import WikiApi
 
 # TODO GABRI:
 #  perfeziona il paragrafo di benvenuto, aggiungi nome/logo nella navbar
@@ -11,6 +11,7 @@ import re
 
 # TODO EMA:
 #  - implementa i link alle opere dagli autori, usando il parametro 'code', cosi appare sempre un solo risultato;
+#    solo da abbellire
 #  - implementa quella cosa di wiki sparql per le immagini degli autori;
 #  - ricerca per lingua deve rendere lo stesso numero di risultati, con evidenziati però quelli che matchano
 #    (lingua a pedice?)
@@ -25,6 +26,20 @@ server = AllegroGraphServer(HOST, PORT, USER, PASSWORD)
 conn = server.openCatalog("main").getRepository("galileo", Repository.OPEN).getConnection()
 
 app = Flask(__name__)
+
+wiki = WikiApi({'locale': 'es'})
+
+
+def get_wiki_image(name: str):
+    print(name, name.replace(',', ''))
+    splitted = name.split(',')
+    results = wiki.find(splitted[1] + " " + splitted[0] if len(splitted) > 1 else name)
+    picture = None
+    if len(results):
+        article = wiki.get_article(results[0])
+        picture = article.image
+    print(picture)
+    return picture
 
 
 def sanitize_lang(langs: str) -> list:
@@ -125,7 +140,7 @@ def authors_search_result():
             authors.append({'id': str(r.getValue('code'))[1:-1].split('/')[-1], 'name': str(r.getValue('name'))[1:-1],
                             'works': [
                                 (str(r.getValue('title'))[1:-1], str(r.getValue('resource_id')))
-                            ]})
+                            ], 'picture': get_wiki_image(str(r.getValue('name'))[1:-1])})
         else:
             authors[-1]['works'].append((str(r.getValue('title'))[1:-1], str(r.getValue('resource_id'))))
     return render_template("authors_search.html", authors=authors)
@@ -134,7 +149,6 @@ def authors_search_result():
 @app.route("/resources", methods=['GET', 'POST'])
 def resources_search_result():
     # dizioniario roba get
-
     # sparql_query_elements = request.values
     sparql_query_elements = {
         'input': request.values['input'] if 'input' in request.values.keys() else "",
@@ -143,51 +157,47 @@ def resources_search_result():
         'max_date': request.values['max_date'] if 'max_date' in request.values.keys() else "",
         'languages': request.values['languages'] if 'languages' in request.values.keys() else "",
         'author': request.values['author'] if 'author' in request.values.keys() else "",
-        'code': request.values['code'] if 'code' in request.values.keys() else ""
     }
 
-    if sparql_query_elements['code'] == "":
-        sparql_query_elements['languages'] = sanitize_lang(sparql_query_elements['languages'])
-        author_filter = publisher_filter = language_filter = ""
+    sparql_query_elements['languages'] = sanitize_lang(sparql_query_elements['languages'])
+    author_filter = publisher_filter = language_filter = ""
 
-        if not sparql_query_elements['author'] == "":
-            author_filter = """ filter contains(?creator_name, "%s") 
-                """ % sparql_query_elements['author']
+    if not sparql_query_elements['author'] == "":
+        author_filter = """ filter contains(?creator_name, "%s") 
+            """ % sparql_query_elements['author']
 
-        if not sparql_query_elements['publisher'] == "":
-            publisher_filter = """ filter contains(?publisher_name, "%s")
-                """ % sparql_query_elements['publisher']
+    if not sparql_query_elements['publisher'] == "":
+        publisher_filter = """ filter contains(?publisher_name, "%s")
+            """ % sparql_query_elements['publisher']
 
-        if len(sparql_query_elements['languages']) > 0:
-            language_filter = "?code dcterms:language ?lang filter ("
-            for lang in sparql_query_elements['languages']:
-                language_filter += f'(?lang = "{lang}") || '
-            language_filter = language_filter[:-3] + ") ."
-        query = """
-                   SELECT ?code ?title ?date ?creator_name ?publisher_name WHERE {                   
-                   ?code rdfs:label ?title filter contains (lcase(?title), lcase("%s")) .
-                        ?code dcterms:issued ?date .
-                        ?code dcterms:creator ?creator .
-                        ?creator foaf:name ?creator_name .
-                        ?code dcterms:publisher ?pub .
-                        ?pub foaf:name ?publisher_name %s.
-                """ % (
-            sparql_query_elements['input'],
-            publisher_filter) + author_filter + publisher_filter + language_filter + "} order by ?code"
-    else:
-        # todo se un dato non è definito l'elemento non viene ritornato: spezza in due query e due funzioni
-        query = """
-                    SELECT ?code ?title ?date ?creator_name ?publisher_name WHERE {                   
-                        ?code rdfs:label ?title filter (?code=%s) .
-                        ?code dcterms:issued ?date .
-                        ?code dcterms:creator ?creator .
-                        ?creator foaf:name ?creator_name .
-                        ?code dcterms:publisher ?pub .
-                        ?pub foaf:name ?publisher_name .
-                        }
-        """ % sparql_query_elements['code']
-    print(query)
+    if len(sparql_query_elements['languages']) > 0:
+        language_filter = "?code dcterms:language ?lang filter ("
+        for lang in sparql_query_elements['languages']:
+            language_filter += f'(?lang = "{lang}") || '
+        language_filter = language_filter[:-3] + ") ."
+    query = """
+               SELECT ?code ?title ?date ?creator_name ?publisher_name WHERE {{                   
+               ?code rdfs:label ?title filter contains (lcase(?title), lcase("%s")) .
+                    ?code dcterms:issued ?date .
+                    ?code dcterms:creator ?creator .
+                    ?creator foaf:name ?creator_name .
+                    ?code dcterms:publisher ?pub .
+                    ?pub foaf:name ?publisher_name %s.
+            """ % (
+        sparql_query_elements['input'],
+        publisher_filter) + author_filter + publisher_filter + language_filter + "} UNION"
+    query += """{                   
+               ?code rdfs:label ?title filter contains (lcase(?title), lcase("%s")) .
+                    ?code dcterms:issued ?date .
+                    ?code dcterms:creator ?creator .
+                    ?creator foaf:name ?creator_name .
+                    ?code dcterms:publisher ?pub .
+                    ?pub foaf:name ?publisher_name %s.""" % (sparql_query_elements['input'], publisher_filter) \
+             + author_filter + publisher_filter + "} } order by desc(?lang) asc(?code)"
+
     resources = []
+
+    print(query)
     query_result = conn.prepareTupleQuery(QueryLanguage.SPARQL, query).evaluate()
     if sparql_query_elements['min_date'] == "":
         sparql_query_elements['min_date'] = -10000
@@ -210,3 +220,57 @@ def resources_search_result():
                 resources[-1]['creator'] += "; " + str(r.getValue('creator_name'))[1:-1]
     # query_results = execute_query(query)
     return render_template("resources_search.html", results=resources)
+
+
+@app.route("/resource_link", methods=['GET', 'POST'])
+def resources_direct_search():
+    sparql_query_elements = {
+        'code': request.values['code'] if 'code' in request.values.keys() else ""
+    }
+
+    query = """
+                SELECT ?code ?title ?creator_name WHERE {                   
+                    ?code rdfs:label ?title filter (?code=%s) .
+                    ?code dcterms:creator ?creator .
+                    ?creator foaf:name ?creator_name .
+                }
+            """ % sparql_query_elements['code']
+
+    article = conn.prepareTupleQuery(QueryLanguage.SPARQL, query).evaluate()
+    result = []
+    for art in article:
+        if len(result) < 1 or result[len(result) - 1]['id'] not in str(art.getValue('code')):
+
+            sub_query_issued = """SELECT ?code ?date WHERE {?code dcterms:issued ?date . filter (?code=%s)}""" % \
+                               sparql_query_elements['code']
+            sub_query_publisher = """
+                    SELECT ?code ?publisher_name WHERE {
+                        ?code dcterms:publisher ?pub filter (?code=%s).
+                        ?pub foaf:name ?publisher_name .
+                    } order by ?code """ % sparql_query_elements['code']
+
+            iss = conn.prepareTupleQuery(QueryLanguage.SPARQL, sub_query_issued).evaluate()
+            pub = conn.prepareTupleQuery(QueryLanguage.SPARQL, sub_query_publisher).evaluate()
+
+            print(sub_query_issued, '\n\n\n\n\n', sub_query_publisher)
+
+            issued = publisher = ""
+
+            if iss.rowCount() >= 1:
+                for i in iss:
+                    issued = str(i.getValue('date'))[1: -1]
+
+            if pub.rowCount() >= 1:
+                for p in pub:
+                    publisher = str(p.getValue('publisher_name'))[1: -1]
+
+            result.append(
+                {'id': str(art.getValue('code')), 'title': str(art.getValue('title'))[1:-1],
+                 'creator': str(art.getValue('creator_name'))[1:-1],
+                 'publisher': publisher, 'date': issued,
+                 'preview': str(art.getValue('title'))[1:81] + "..." if len(str(art.getValue('title'))) > 82
+                 else str(art.getValue('title'))[1:-1]}
+            )
+        else:
+            result[-1]['creator'] += "; " + str(art.getValue('creator_name'))[1:-1]
+    return render_template("resources_search.html", results=result)

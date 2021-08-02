@@ -139,10 +139,52 @@ body {
 
 /* Welcome info */
 
-#welcome_info{
+#welcome_info {
     border: 2px solid #949899;
     margin: 1em 1em 1em 1em;
     width: 96%;
     padding: 10px;
     background: #dbe3e3;
 }
+
+#navbar {
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+#bootstrap {
+    background-color: #FCFCFC;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 1000;
+    transition: opacity 1s;
+}
+
+@media (min-width: 960px) {
+
+    #bootstrap {
+        background-image: url("../galileo.jpg");
+        background-repeat: no-repeat;
+        background-position: right;
+    }
+}
+
+body {
+    background-color: #FCFCFC;
+}
+
+#main-body {
+    display: none;
+}
+
+/*
+#helper {
+    background: blue;
+    border: 1px solid black;
+    border-radius: 100px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+}*/
