@@ -5,19 +5,8 @@ from franz.openrdf.query.query import QueryLanguage
 import re
 from wikiapi import WikiApi
 
-# TODO GABRI:
-#  perfeziona il paragrafo di benvenuto, aggiungi nome/logo nella navbar
 
-
-# TODO EMA:
-#  - implementa i link alle opere dagli autori, usando il parametro 'code', cosi appare sempre un solo risultato;
-#    solo da abbellire
-#  - implementa quella cosa di wiki sparql per le immagini degli autori;
-#  - ricerca per lingua deve rendere lo stesso numero di risultati, con evidenziati però quelli che matchano
-#    (lingua a pedice?)
-
-
-HOST = "localhost"
+HOST = "93.66.209.168"
 PORT = 10035
 USER = "manu"
 PASSWORD = "manu"

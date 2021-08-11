@@ -58,16 +58,12 @@
             </button>
         </span>
 
-
-        <button type="button" class="btn btn-light rounded-2 d-sm-none" id="btnFilter">
+        <button type="button" class="btn btn-light rounded-2 d-sm-none float-end" id="btnFilter">
             <span class="glyphicon glyphicon-cog"></span>Filters
         </button>
 
-        <button type="button" class="btn btn-light rounded-2 ms-2" id="btnHelp" onclick="help()">
-            <i class="far fa-question-circle"></i>
-        </button>
-
     </div>
+
 
 
 </nav>
@@ -179,6 +175,10 @@
 
         <div id="results" class="col-md-7 col-xs-12 rounded-2 result">
             <h3>Results:</h3>
+
+            <button type="button" class="btn btn-light rounded-2 float-end" id="btnHelp" onclick="help()">
+                <i class="far fa-question-circle"></i>
+            </button>
 
             <ul class="nav nav-tabs tabs-bordered">
                 <li class="nav-item"><a href="#home" class="nav-link" id="btnHome">Articles <span
