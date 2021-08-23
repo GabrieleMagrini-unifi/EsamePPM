@@ -213,6 +213,13 @@ function search() {
                     this.responseText;
                 articleCounter = $("#accordionFlushExample").children().length;
                 document.getElementById("counter").innerHTML = articleCounter;
+                if(articleCounter > 0) {
+                    $('#btnPrevResArt').css('display', 'block');
+                    $('#btnNextResArt').css('display', 'block');
+                } else {
+                    $('#btnPrevResArt').css('display', 'none');
+                    $('#btnNextResArt').css('display', 'none');
+                }
                 articlePageNumber = 1;
                 setAccordionNumber();
                 renderArticleAccordions()
@@ -225,6 +232,13 @@ function search() {
                     this.responseText;
                 authorCounter = $("#accordionFlushAutExample").children().length;
                 document.getElementById("counter2").innerHTML = authorCounter;
+                if(authorCounter > 0) {
+                    $('#btnPrevResAut').css('display', 'block');
+                    $('#btnNextResArt').css('display', 'block');
+                } else {
+                    $('#btnPrevResAut').css('display', 'none');
+                    $('#btnNextResArt').css('display', 'none');
+                }
                 authorPageNumber = 1;
                 setAccordionNumber();
                 renderAuthorsAccordions();
@@ -297,6 +311,7 @@ function bootstrap(activePage) {
         let myDiv4 = document.getElementById('results');
         if (myDiv.style.display != 'block') {
             myDiv.style.display = 'block';
+            myDiv2.style.display = 'none';
             myDiv2.style.display = 'none';
             myDiv3.style.display = 'none';
             myDiv4.classList.remove('col-md-7');

@@ -5,8 +5,13 @@ from franz.openrdf.query.query import QueryLanguage
 import re
 from wikiapi import WikiApi
 
+# fixme tipo di articolo insieme al titolo
+# fixme subquery all'apertura dell'accordion
+# fixme titolo + qualcosina nella navbar
+
 
 HOST = "93.66.209.168"
+# HOST = "localhost"
 PORT = 10035
 USER = "manu"
 PASSWORD = "manu"
