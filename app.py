@@ -4,6 +4,7 @@ from franz.openrdf.repository.repository import Repository
 from franz.openrdf.query.query import QueryLanguage
 import re
 from wikiapi import WikiApi
+import datetime
 
 # fixme tipo di articolo insieme al titolo e data on top
 # fixme subquery all'apertura dell'accordion --> loading animation
@@ -131,7 +132,9 @@ def retrieve_authors_details():
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    e = {'min_date': "10000 AC",
+         'max_date': datetime.datetime.now().year}
+    return render_template("index.html", env=e)
 
 
 @app.route("/authors", methods=['GET', 'POST'])
@@ -150,10 +153,10 @@ def authors_search_result():
     query_result = conn.prepareTupleQuery(QueryLanguage.SPARQL, query).evaluate()
     for r in query_result:
         if len(authors) < 1 or authors[-1]['id'] not in str(r.getValue('code')):
-            authors.append({'id': str(r.getValue('code')), 'name': str(r.getValue('name'))[1:-1]#,
-                            #'works': [
+            authors.append({'id': str(r.getValue('code')), 'name': str(r.getValue('name'))[1:-1]  # ,
+                            # 'works': [
                             #    (str(r.getValue('title'))[1:-1], str(r.getValue('resource_id')))
-                            #]
+                            # ]
                             #   , 'picture': get_wiki_image(str(r.getValue('name'))[1:-1])
                             })
         else:
@@ -217,9 +220,17 @@ def resources_search_result():
     query_result = conn.prepareTupleQuery(QueryLanguage.SPARQL, query).evaluate()
     if sparql_query_elements['min_date'] == "":
         sparql_query_elements['min_date'] = -10000
-    if sparql_query_elements['max_date'] == "":
-        sparql_query_elements['max_date'] = 10000
+    elif re.findall("[aA].?[cC]?.", sparql_query_elements['min_date']):
+        sparql_query_elements['min_date'] = -int(re.findall("[0-9]*", sparql_query_elements['min_date'])[0])
+    else:
+        sparql_query_elements['min_date'] = int(re.findall("[0-9]*", sparql_query_elements['min_date'])[0])
 
+    if sparql_query_elements['max_date'] == "":
+        sparql_query_elements['max_date'] = datetime.datetime.now().year
+    elif re.findall("[aA].?[cC]?.", sparql_query_elements['max_date']):
+        sparql_query_elements['max_date'] = -int(re.findall("[0-9]*", sparql_query_elements['max_date'])[0])
+    else:
+        sparql_query_elements['max_date'] = int(re.findall("[0-9]*", sparql_query_elements['max_date'])[0])
     for r in query_result:
         if contained((int(sparql_query_elements['min_date']), int(sparql_query_elements['max_date'])),
                      sd := sanitize_date(str(r.getValue('date')))):
