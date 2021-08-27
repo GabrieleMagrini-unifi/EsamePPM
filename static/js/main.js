@@ -331,3 +331,18 @@ function bootstrap(activePage) {
         $('#bootstrap').css('z-index', -1);
     }, 1000);
 }
+
+function load_data(author_name, id, target) {
+    if(document.getElementById(target).getElementsByClassName('accordion-body')[0].innerHTML === "") {
+        const accordionXhttp = new XMLHttpRequest();
+        accordionXhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                document.getElementById(target).getElementsByClassName('accordion-body')[0].innerHTML =
+                    this.responseText;
+            }
+        }
+        document.getElementById(target).getElementsByClassName('accordion-body')[0].innerHTML = "loading...";
+        accordionXhttp.open("GET", "details?name=" + author_name + "&id=" + id, true);
+        accordionXhttp.send();
+    }
+}

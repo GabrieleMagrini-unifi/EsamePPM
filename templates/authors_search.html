@@ -3,52 +3,14 @@
         <h2 class="accordion-header" id="flush-headingAut{{ loop.index }}">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapseAut{{ loop.index }}" aria-expanded="false"
-                    aria-controls="flush-collapseAut{{ loop.index }}">
+                    aria-controls="flush-collapseAut{{ loop.index }}" onclick="load_data('{{ author['name'] }}', '{{ author['id'] }}',
+                     'flush-collapseAut{{ loop.index }}')">
                 {{ author['name'] }}
             </button>
         </h2>
         <div id="flush-collapseAut{{ loop.index }}" class="accordion-collapse collapse"
              aria-labelledby="flush-heading{{ loop.index }}" data-bs-parent="#accordionFlushAutExample">
-            <div class="accordion-body">
-                <div class="row">
-
-                    {% if author['picture'] != None %}
-                        <div class="col-12 col-lg-2">
-                            <img src="{{ author['picture'] }}" alt="{{ author['name'] }} picture">
-                        </div>
-                        <div class="col offset-lg-1">
-                            <h4>
-                                Opere:
-                            </h4>
-                            <ul class="no-decoration">
-                                {% for work in author['works'] %}
-                                    <li>
-                                        <a onclick='newSearch( "{{ work[1] }}" );'>
-                                            {{ work[0] }}
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% else %}
-                        <div class="col">
-                            <h4>
-                                Opere:
-                            </h4>
-                            <ul class="no-decoration">
-                                {% for work in author['works'] %}
-                                    <li>
-                                        <a onclick='newSearch( "{{ work[1] }}" );'>
-                                            {{ work[0] }}
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                {% endif %}
-                </div>
-
-            </div>
+            <div class="accordion-body"></div>
         </div>
     </div>
 {% endfor %}

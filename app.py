@@ -5,13 +5,13 @@ from franz.openrdf.query.query import QueryLanguage
 import re
 from wikiapi import WikiApi
 
-# fixme tipo di articolo insieme al titolo
-# fixme subquery all'apertura dell'accordion
+# fixme tipo di articolo insieme al titolo e data on top
+# fixme subquery all'apertura dell'accordion --> loading animation
 # fixme titolo + qualcosina nella navbar
 
 
 HOST = "93.66.209.168"
-# HOST = "localhost"
+HOST = "localhost"
 PORT = 10035
 USER = "manu"
 PASSWORD = "manu"
@@ -110,6 +110,25 @@ def contained(superset: tuple[int, int], subset: tuple[int, int]) -> bool:
     return superset[0] <= subset[0] and subset[1] <= superset[1]
 
 
+@app.route("/details", methods=['GET'])
+def retrieve_authors_details():
+    author_id = request.values['id']
+    author_name = request.values['name']
+    query = """
+        SELECT ?resource_id ?title WHERE {
+            ?resource_id dcterms:creator %s .
+            ?resource_id rdfs:label ?title .
+        }
+    """ % author_id
+    print("\n", query, "\n")
+    result = conn.prepareTupleQuery(QueryLanguage.SPARQL, query).evaluate()
+    works = []
+    for r in result:
+        works.append((str(r.getValue('title'))[1:-1], str(r.getValue('resource_id'))))
+    d = {'works': works, 'picture': get_wiki_image(author_name)}
+    return render_template("author_details.html", details=d)
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -122,7 +141,7 @@ def authors_search_result():
         'input': request.values['input'] if 'input' in request.values.keys() else ""
     }
     query = """
-                SELECT ?code ?name ?title ?resource_id WHERE {
+                SELECT DISTINCT ?code ?name WHERE {
                     ?code rdf:type foaf:Person .
                     ?code foaf:name ?name filter contains(lcase(?name), lcase("%s")) .
                     ?resource_id dcterms:creator ?code .
@@ -131,11 +150,14 @@ def authors_search_result():
     query_result = conn.prepareTupleQuery(QueryLanguage.SPARQL, query).evaluate()
     for r in query_result:
         if len(authors) < 1 or authors[-1]['id'] not in str(r.getValue('code')):
-            authors.append({'id': str(r.getValue('code'))[1:-1].split('/')[-1], 'name': str(r.getValue('name'))[1:-1],
-                            'works': [
-                                (str(r.getValue('title'))[1:-1], str(r.getValue('resource_id')))
-                            ], 'picture': get_wiki_image(str(r.getValue('name'))[1:-1])})
+            authors.append({'id': str(r.getValue('code')), 'name': str(r.getValue('name'))[1:-1]#,
+                            #'works': [
+                            #    (str(r.getValue('title'))[1:-1], str(r.getValue('resource_id')))
+                            #]
+                            #   , 'picture': get_wiki_image(str(r.getValue('name'))[1:-1])
+                            })
         else:
+            continue
             authors[-1]['works'].append((str(r.getValue('title'))[1:-1], str(r.getValue('resource_id'))))
     return render_template("authors_search.html", authors=authors)
 
