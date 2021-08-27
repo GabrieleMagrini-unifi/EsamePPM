@@ -222,15 +222,17 @@ def resources_search_result():
 
     for r in query_result:
         if contained((int(sparql_query_elements['min_date']), int(sparql_query_elements['max_date'])),
-                     sanitize_date(str(r.getValue('date')))):
+                     sd := sanitize_date(str(r.getValue('date')))):
             if len(resources) < 1 or resources[len(resources) - 1]['id'] not in str(r.getValue('code')):
+
                 resources.append(
                     {'id': str(r.getValue('code')), 'title': str(r.getValue('title'))[1:-1],
                      'date': str(r.getValue('date'))[1:-1],
                      'creator': str(r.getValue('creator_name'))[1:-1],
                      'publisher': str(r.getValue('publisher_name'))[1:-1],
                      'preview': str(r.getValue('title'))[1:81] + "..." if len(str(r.getValue('title'))) > 82
-                     else str(r.getValue('title'))[1:-1]}
+                     else str(r.getValue('title'))[1:-1],
+                     'sanitized_date': str(sd[0]) if sd[0] == sd[1] else str(sd[0]) + "-" + str(sd[1])}
                 )
             else:
                 resources[-1]['creator'] += "; " + str(r.getValue('creator_name'))[1:-1]

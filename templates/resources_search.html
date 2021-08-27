@@ -9,7 +9,7 @@
                         data-bs-target="#flush-collapse{{ loop.index }}"
                         aria-expanded="false"
                         aria-controls="flush-collapse{{ loop.index }}">
-                    {{ result['title'] }}
+                    {{ result['title']  + " "}} <span class="date"> ({{ result['sanitized_date'] }}) </span>
                 </button>
             </h2>
             <div id="flush-collapse{{ loop.index }}" class="accordion-collapse collapse"
@@ -46,7 +46,7 @@
                         data-bs-target="#flush-collapse{{ loop.index }}"
                         aria-expanded="false"
                         aria-controls="flush-collapse{{ loop.index }}">
-                    {{ result['preview'] }}
+                    {{ result['preview'] + " "}} <span class="date"> ({{ result['sanitized_date'] }}) </span>
                 </button>
             </h2>
             <div id="flush-collapse{{ loop.index }}" class="accordion-collapse collapse"

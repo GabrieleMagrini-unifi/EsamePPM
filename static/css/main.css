@@ -178,3 +178,9 @@ body {
 #main-body {
     display: none;
 }
+
+.date {
+    color: #6c757d;
+    vertical-align: sub;
+    font-size: smaller;
+}
