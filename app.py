@@ -11,8 +11,8 @@ import datetime
 # fixme titolo + qualcosina nella navbar
 
 
-HOST = "93.66.209.168"
-HOST = "localhost"
+HOST = "93.149.230.145"
+#HOST = "localhost"
 PORT = 10035
 USER = "manu"
 PASSWORD = "manu"
