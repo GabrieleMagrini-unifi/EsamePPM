@@ -4,13 +4,17 @@ body {
 
 /*navbars*/
 
+.navbar-brand{
+   margin-left: 5%;
+    margin-right: 0;
+}
+
 .bg-light {
     background: #563187 !important;
 }
 
 .navbar-light .navbar-nav .nav-link:hover {
     background: #f4f4f4;
-    color: #0d6efd;
 }
 
 .navbar-light .navbar-collapse {
@@ -25,7 +29,7 @@ body {
 
 .input-group {
     margin-right: 20%;
-    margin-left: 20%;
+    margin-left: 10%;
 }
 
 .ms-n5 {
