@@ -192,15 +192,19 @@
                 <div class="tab-pane" id="home">
                     <div class="row contentPanel" id="prova">
                         <div class="accordion" id="accordionFlushExample">
+                            <div class="lds-dual-ring" style="display: none"></div>
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-outline-dark" style="display: none" id="btnPrevResArt">Previous
-                        results
-                    </button>
-                    <button type="button" class="btn btn-outline-dark" style="display: none" id="btnNextResArt">Next
-                        results
-                    </button>
+                    <div class="page-navigator" style="display: none;">
+                        <button type="button" class="btn btn-outline-dark"  id="btnPrevResArt">Previous
+                            results
+                        </button>
+                        <p class="page-number"><span id="article-page">1</span></p>
+                        <button type="button" class="btn btn-outline-dark"  id="btnNextResArt">Next
+                            results
+                        </button>
+                    </div>
 
                 </div>
 
@@ -208,16 +212,19 @@
                     <div class="row contentPanel" id="provaAut">
 
                         <div class="accordion" id="accordionFlushAutExample">
-
-
+                            <div class="lds-dual-ring" style="display: none"></div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-outline-dark" style="display: none" id="btnPrevResAut">Previous
-                        results
-                    </button>
-                    <button type="button" class="btn btn-outline-dark" style="display: none" id="btnNextResAut">Next
-                        results
-                    </button>
+                    <div class="page-navigator" style="display: none">
+                        <button type="button" class="btn btn-outline-dark" id="btnPrevResAut">
+                            Previous results
+                        </button>
+                        <p class="page-number"><span id="author-page">1</span></p>
+                        <button type="button" class="btn btn-outline-dark" id="btnNextResAut">
+                            Next results
+                        </button>
+                    </div>
+
                 </div>
 
                 <div id="welcome_info" class="float-start" style="display: none">

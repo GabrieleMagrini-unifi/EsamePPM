@@ -107,22 +107,18 @@ body {
 
 #btnPrevResAut {
     margin-top: 10px;
-    float: left;
 }
 
 #btnNextResAut {
     margin-top: 10px;
-    float: right;
 }
 
 #btnPrevResArt {
     margin-top: 10px;
-    float: left;
 }
 
 #btnNextResArt {
     margin-top: 10px;
-    float: right;
 }
 
 /* generic */
@@ -183,4 +179,44 @@ body {
     color: #6c757d;
     vertical-align: sub;
     font-size: smaller;
+}
+
+.page-number {
+    margin: auto;
+}
+
+.page-number > span {
+    padding: 10px;
+}
+
+.page-navigator {
+    display: flex;
+    justify-content: space-between;
+}
+
+.lds-dual-ring {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+}
+
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border: 6px solid;
+    border-radius: 50%;
+    border-color: black transparent black transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

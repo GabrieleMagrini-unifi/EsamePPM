@@ -22,7 +22,6 @@ function setAccordionNumber() {
 }
 
 
-
 $(document).ready(function () {
     $("#btnFilter").click(function () {
 
@@ -62,25 +61,27 @@ $(document).ready(function () {
     }
 });
 
+function openArticles() {
+
+    let myDiv = document.getElementById('home');
+    let myDiv2 = document.getElementById('users');
+    let myDiv3 = document.getElementById('filter-panel');
+    let myDiv4 = document.getElementById('results');
+    if (myDiv.style.display != 'block') {
+        myDiv.style.display = 'block';
+        myDiv2.style.display = 'none';
+        myDiv3.style.display = 'block';
+        myDiv4.classList.remove('col-md-12');
+        myDiv4.classList.add('col-md-7');
+        this.classList.add("active");
+        document.getElementById("btnAut").classList.remove("active");
+    }
+}
+
 $(document).ready(function () {
-    $("#btnHome").click(function () {
+    $("#btnHome").click(openArticles);
 
-        let myDiv = document.getElementById('home');
-        let myDiv2 = document.getElementById('users');
-        let myDiv3 = document.getElementById('filter-panel');
-        let myDiv4 = document.getElementById('results');
-        if (myDiv.style.display != 'block') {
-            myDiv.style.display = 'block';
-            myDiv2.style.display = 'none';
-            myDiv3.style.display = 'block';
-            myDiv4.classList.remove('col-md-12');
-            myDiv4.classList.add('col-md-7');
-            this.classList.add("active");
-            document.getElementById("btnAut").classList.remove("active");
-        }
-    });
 });
-
 
 $(document).ready(function () {
     $("#btnAut").click(function () {
@@ -88,6 +89,7 @@ $(document).ready(function () {
         let myDiv2 = document.getElementById('home');
         let myDiv3 = document.getElementById('filter-panel');
         let myDiv4 = document.getElementById('results');
+
         if (myDiv.style.display != 'block') {
             myDiv.style.display = 'block';
             myDiv2.style.display = 'none';
@@ -96,6 +98,7 @@ $(document).ready(function () {
             myDiv4.classList.add('col-md-12');
             this.classList.add("active");
             document.getElementById("btnHome").classList.remove("active");
+            renderAuthorsAccordions();
         }
     });
 });
@@ -121,8 +124,12 @@ function renderAuthorsAccordions() {
         console.log(i);
 
     }
+    document.getElementById("author-page").innerText = authorPageNumber;
+    document.getElementsByClassName("page-navigator")[1].style.display = 'flex';
+
 
 }
+
 function renderArticleAccordions() {
     console.log("Numero di pagina: " + articlePageNumber);
     let accordions = $("#accordionFlushExample .accordion-item");
@@ -135,6 +142,8 @@ function renderArticleAccordions() {
         console.log(i);
         accordions.eq(i).show();
     }
+    document.getElementById("article-page").innerText = articlePageNumber
+    document.getElementsByClassName("page-navigator")[0].style.display = 'flex';
 }
 
 $(document).ready(function () {
@@ -165,20 +174,11 @@ $(document).ready(function () {
 
 function search() {
     let myDiv = document.getElementById('welcome_info');
-    let myDiv2 = document.getElementById('btnPrevResArt');
-    let myDiv3 = document.getElementById('btnNextResArt');
-    let myDiv4 = document.getElementById('btnPrevResAut');
-    let myDiv5 = document.getElementById('btnNextResAut');
 
 
-    if (myDiv.style.display != 'none') {
+    if (myDiv.style.display !== 'none') {
         myDiv.style.display = 'none';
-        myDiv2.style.display = 'block';
-        myDiv3.style.display = 'block';
-        myDiv4.style.display = 'block';
-        myDiv5.style.display = 'block';
     }
-
     let searched = "?input=" + document.getElementById('search-input').value;
     if (searched.length > 7) {
         let min_date = "&min_date=" + document.getElementById('min_date').value;
@@ -213,7 +213,7 @@ function search() {
                     this.responseText;
                 articleCounter = $("#accordionFlushExample").children().length;
                 document.getElementById("counter").innerHTML = articleCounter;
-                if(articleCounter > 0) {
+                if (articleCounter > 0) {
                     $('#btnPrevResArt').css('display', 'block');
                     $('#btnNextResArt').css('display', 'block');
                 } else {
@@ -232,7 +232,7 @@ function search() {
                     this.responseText;
                 authorCounter = $("#accordionFlushAutExample").children().length;
                 document.getElementById("counter2").innerHTML = authorCounter;
-                if(authorCounter > 0) {
+                if (authorCounter > 0) {
                     $('#btnPrevResAut').css('display', 'block');
                     $('#btnNextResArt').css('display', 'block');
                 } else {
@@ -248,8 +248,16 @@ function search() {
         xhttpAuthors.open("GET", "authors" + searched, true);
         document.getElementById("counter").innerText = "Loading";
         document.getElementById("counter2").innerHTML = "Loading";
+
+        document.getElementsByClassName("page-navigator")[0].style.display = 'none';
+        document.getElementsByClassName("page-navigator")[1].style.display = 'none';
+
         xhttpResources.send();
+        document.getElementById("accordionFlushExample").innerHTML =
+            "<div class='lds-dual-ring'></div>";
         xhttpAuthors.send();
+        document.getElementById("accordionFlushAutExample").innerHTML =
+            "<div class='lds-dual-ring'></div>";
     }
 }
 
@@ -279,6 +287,7 @@ function newSearch(id) {
             document.getElementById("counter").innerHTML = articleCounter;
             articlePageNumber = 1;
             setAccordionNumber();
+            openArticles();
             renderArticleAccordions();
 
             // let myDiv = document.getElementById('home');
@@ -299,10 +308,12 @@ function newSearch(id) {
     xhttpResources.open("GET", "resource_link?code=" + id, true);
     document.getElementById("counter").innerText = "Loading";
     xhttpResources.send();
+    document.getElementById("accordionFlushArtExample").innerHTML =
+        "<div class='lds-dual-ring'></div>"
 }
 
 function bootstrap(activePage) {
-    if(activePage === "author") {
+    if (activePage === "author") {
         $('#btnAut').addClass('active');
         $('#users').addClass('active');
         let myDiv = document.getElementById('users');
@@ -327,13 +338,13 @@ function bootstrap(activePage) {
     $('#navbar').css('opacity', '100%');
     $('#main-body').css('display', 'block');
     $('#search-input').focus();
-    setTimeout(function(){
+    setTimeout(function () {
         $('#bootstrap').css('z-index', -1);
     }, 1000);
 }
 
 function load_data(author_name, id, target) {
-    if(document.getElementById(target).getElementsByClassName('accordion-body')[0].innerHTML === "") {
+    if (document.getElementById(target).getElementsByClassName('accordion-body')[0].innerHTML === "") {
         const accordionXhttp = new XMLHttpRequest();
         accordionXhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
@@ -341,7 +352,8 @@ function load_data(author_name, id, target) {
                     this.responseText;
             }
         }
-        document.getElementById(target).getElementsByClassName('accordion-body')[0].innerHTML = "loading...";
+        document.getElementById(target).getElementsByClassName('accordion-body')[0].innerHTML =
+            "<div class='lds-dual-ring'></div>";
         accordionXhttp.open("GET", "details?name=" + author_name + "&id=" + id, true);
         accordionXhttp.send();
     }
