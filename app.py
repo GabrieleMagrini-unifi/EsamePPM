@@ -12,7 +12,7 @@ import datetime
 
 
 HOST = "93.149.230.145"
-#HOST = "localhost"
+HOST = "localhost"
 PORT = 10035
 USER = "manu"
 PASSWORD = "manu"
@@ -97,6 +97,7 @@ def sanitize_date(date: str):
         stop *= 100
     else:
         # per convenzione i senza data sono datati 0
+        print("-----------------------", date, "-----------------------")
         start = stop = 0
     if bc:
         start = -int(start)
@@ -132,7 +133,14 @@ def retrieve_authors_details():
 
 @app.route("/")
 def index():
-    e = {'min_date': "10000 AC",
+    dates = conn.prepareTupleQuery(QueryLanguage.SPARQL,
+                                   "SELECT DISTINCT ?date WHERE { ?code dcterms:issued ?date . }").evaluate()
+    min_date = datetime.datetime.now().year
+    for date in dates:
+        d = sanitize_date(str(date.getValue('date')))[0]
+        if d < min_date:
+            min_date = d
+    e = {'min_date': str(min_date) if min_date > 0 else str(-min_date) + " AC",
          'max_date': datetime.datetime.now().year}
     return render_template("index.html", env=e)
 
@@ -195,13 +203,14 @@ def resources_search_result():
             language_filter += f'(?lang = "{lang}") || '
         language_filter = language_filter[:-3] + ") ."
     query = """
-               SELECT ?code ?title ?date ?creator_name ?publisher_name WHERE {{                   
+               SELECT ?code ?title ?date ?creator_name ?publisher_name ?type WHERE {{                   
                ?code rdfs:label ?title filter contains (lcase(?title), lcase("%s")) .
                     ?code dcterms:issued ?date .
                     ?code dcterms:creator ?creator .
                     ?creator foaf:name ?creator_name .
                     ?code dcterms:publisher ?pub .
                     ?pub foaf:name ?publisher_name %s.
+                    ?code rdf:type ?type
             """ % (
         sparql_query_elements['input'],
         publisher_filter) + author_filter + publisher_filter + language_filter + "} UNION"
@@ -243,10 +252,14 @@ def resources_search_result():
                      'publisher': str(r.getValue('publisher_name'))[1:-1],
                      'preview': str(r.getValue('title'))[1:81] + "..." if len(str(r.getValue('title'))) > 82
                      else str(r.getValue('title'))[1:-1],
-                     'sanitized_date': str(sd[0]) if sd[0] == sd[1] else str(sd[0]) + "-" + str(sd[1])}
+                     'sanitized_date': str(sd[0]) if sd[0] == sd[1] else str(sd[0]) + "-" + str(sd[1]),
+                     'type': str(r.getValue('type'))[1:-1].split('/')[-1]}
                 )
-            else:
+            elif str(r.getValue('creator_name')) not in resources[-1]['creator']:
                 resources[-1]['creator'] += "; " + str(r.getValue('creator_name'))[1:-1]
+            else:
+                # nuovo tipo
+                resources[-1]['type'] += " | " + str(r.getValue('type'))[1:-1].split('/')[-1]
     # query_results = execute_query(query)
     return render_template("resources_search.html", results=resources)
 

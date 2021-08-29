@@ -9,7 +9,7 @@
                         data-bs-target="#flush-collapse{{ loop.index }}"
                         aria-expanded="false"
                         aria-controls="flush-collapse{{ loop.index }}">
-                    {{ result['title']  + " "}} <span class="date"> ({{ result['sanitized_date'] }}) </span>
+                    {{ result['title']  + " " }} <span class="date"> ({{ result['sanitized_date'] }}) </span>
                 </button>
             </h2>
             <div id="flush-collapse{{ loop.index }}" class="accordion-collapse collapse"
@@ -21,19 +21,19 @@
                             {{ result['date'] }}
                         </p>
                     {% endif %}
+                        <p> Tipo:
+                            {{ result['type'] }}
+                        </p>
                     {% if result['creator'] != "" %}
                         <p> Autore/i:<br>
                             {{ result['creator'] }}
                         </p>
                     {% endif %}
                     {% if result['publisher'] != "" and result['publisher'] != '"s.n"' %}
-                        <p> Publisher
+                        <p> Publisher:
                             {{ result['publisher'] }}
                         </p>
                     {% endif %}
-                    <p> Code
-                        {{ result['id'] }}
-                    </p>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
                         data-bs-target="#flush-collapse{{ loop.index }}"
                         aria-expanded="false"
                         aria-controls="flush-collapse{{ loop.index }}">
-                    {{ result['preview'] + " "}} <span class="date"> ({{ result['sanitized_date'] }}) </span>
+                    {{ result['preview'] + " " }} <span class="date"> ({{ result['sanitized_date'] }}) </span>
                 </button>
             </h2>
             <div id="flush-collapse{{ loop.index }}" class="accordion-collapse collapse"

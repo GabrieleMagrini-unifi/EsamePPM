@@ -73,7 +73,7 @@ function openArticles() {
         myDiv3.style.display = 'block';
         myDiv4.classList.remove('col-md-12');
         myDiv4.classList.add('col-md-7');
-        this.classList.add("active");
+        document.getElementById('btnHome').classList.add("active");
         document.getElementById("btnAut").classList.remove("active");
     }
 }
