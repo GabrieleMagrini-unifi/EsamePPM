@@ -204,6 +204,14 @@ body {
     height: 80px;
 }
 
+.resource-link {
+    text-decoration: underline;
+}
+
+.resource-link:hover {
+    color: mediumpurple;
+}
+
 .lds-dual-ring:after {
     content: " ";
     display: block;

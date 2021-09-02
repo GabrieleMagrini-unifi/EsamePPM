@@ -11,7 +11,7 @@
             <ul class="no-decoration">
                 {% for work in details['works'] %}
                     <li>
-                        <a onclick='newSearch( "{{ work[1] }}" );'>
+                        <a class="resource-link" onclick='newSearch( "{{ work[1] }}" );'>
                             {{ work[0] }}
                         </a>
                     </li>
@@ -26,7 +26,7 @@
             <ul class="no-decoration">
                 {% for work in details['works'] %}
                     <li>
-                        <a onclick='newSearch( "{{ work[1] }}" );'>
+                        <a class="resource-link" onclick='newSearch( "{{ work[1] }}" );'>
                             {{ work[0] }}
                         </a>
                     </li>

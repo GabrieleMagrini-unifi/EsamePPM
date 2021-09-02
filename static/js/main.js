@@ -18,6 +18,7 @@ function setAccordionNumber() {
     let accordionHeight = artHeight > autHeight ? artHeight : autHeight;
     let height = $('#results').height() - accordionHeight * 3;
     nAccordionAut = nAccordionArt = Math.floor(height / accordionHeight);
+    if(isNaN(nAccordionArt)) nAccordionAut = nAccordionArt = 10;
 
 }
 
@@ -125,7 +126,8 @@ function renderAuthorsAccordions() {
 
     }
     document.getElementById("author-page").innerText = authorPageNumber;
-    document.getElementsByClassName("page-navigator")[1].style.display = 'flex';
+    if(authorCounter > 0) document.getElementsByClassName("page-navigator")[1].style.display = 'flex';
+    else document.getElementsByClassName("page-navigator")[1].style.display = 'none'
 
 
 }
@@ -143,7 +145,8 @@ function renderArticleAccordions() {
         accordions.eq(i).show();
     }
     document.getElementById("article-page").innerText = articlePageNumber
-    document.getElementsByClassName("page-navigator")[0].style.display = 'flex';
+    if(articleCounter > 0) document.getElementsByClassName("page-navigator")[0].style.display = 'flex';
+    else document.getElementsByClassName("page-navigator")[0].style.display = 'none'
 }
 
 $(document).ready(function () {
